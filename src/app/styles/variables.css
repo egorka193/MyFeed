@@ -1,0 +1,135 @@
+:root {
+  /*Background*/
+  --BgPrimary: #FCFCFC;
+  --BgSecondary: #F2F2F2;
+  --BgTertiary: #FFD1C3;
+  --BgContrast: #FFD1C3;
+  --BgContrast2: #BDBDBD;
+  --BgThumbnail: #F6F6F6;
+  --BgProgressBar: #F2F2F2;
+  --BgСell: #FCFCFC;
+  --BgCellHover: #F6F6F6;
+
+  /*Border*/
+  --Border: #F6F6F6;
+  --BorderLight: #BEB9B4;
+  --BorderHover-Pressed: #FD825D;
+  --BorderAccent: #EE683E;
+  --BorderPositive: #20C997;
+  --BorderNegative: #F03E3E;
+
+  /*Text*/
+  --TextPrimary: #212121;
+  --TextSecondary: #BEB9B4;
+  --TextSecondary2: #686868;
+  --TextTertiary: #BDBDBD;
+  --TextContrast: #FCFCFC;
+  --TextContrast2: #EE683E;
+  --TextOnColour: #686868;
+  --TextAccent: #EE683E;
+  --TextNegative: #F03E3E;
+  --TextDisabled: #BDBDBD;
+  --TextDisabled2: #F2F2F2;
+  --TextDisabled3: #BEB9B4;
+
+  /*Icon*/
+  --IconPrimary: #101010;
+  --IconSecondary: #BEB9B4;
+  --IconSecondaryHover: #FD825D;
+  --IconSecondaryFocus: #EE683E;
+  --IconContrast: #F2F2F2;
+  --IconOnColour: #FCFCFC;
+  --IconAccent: #EE683E;
+  --IconActive: #F03E3E;
+  --IconPositive: #20C997;
+  --IconNegative: #F03E3E;
+
+  /*link*/
+  --LinkAccent: #EE683E;
+
+  /*Control*/
+  --ControlPrimary: #EE683E;
+  --ControlPrimaryHover: #FD825D;
+  --ControlPrimaryPressed: #CD4E27;
+  --ControlPrimaryDisabled: #BEB9B4;
+  --ControlAlternative: #FCFCFC;
+  --ControlAlternativeHover: #FCFCFC;
+  --ControlAlternativeDisabled: #FCFCFC;
+  --ControlSecondary: #FCFCFC;
+  --ControlSecondaryActiev: #EE683E;
+  --ControlSwitch: #212121;
+
+  /*Error*/
+  --Error: #F03E3E;
+  --Success: #20C997;
+  --Focus: #EE683E;
+  --ModalBackground: #EE683E;
+}
+
+[data-theme="dark"] {
+  /*Background*/
+  --BgPrimary: #303030;
+  --BgSecondary: #212121;
+  --BgTertiary: #D2B7AF;
+  --BgContrast: #FD825D;
+  --BgContrast2: #686868;
+  --BgThumbnail: #303030;
+  --BgProgressBar: #686868;
+  --BgСell: #212121;
+  --BgCellHover: #101010;
+
+  /*Border*/
+  --Border: #686868;
+  --BorderLight: #686868;
+  --BorderHover-Pressed: #EE683E;
+  --BorderAccent: #CD4E27;
+  --BorderPositive: #20C997;
+  --BorderNegative: #FA5252;
+
+  /*Text*/
+  --TextPrimary: #F6F6F6;
+  --TextSecondary: #BEB9B4;
+  --TextSecondary2: #BDBDBD;
+  --TextTertiary: #686868;
+  --TextContrast: #FCFCFC;
+  --TextContrast2: #CD4E27;
+  --TextOnColour: #686868;
+  --TextAccent: #EE683E;
+  --TextNegative: #FA5252;
+  --TextDisabled: #686868;
+  --TextDisabled2: #BEB9B4;
+  --TextDisabled3: #686868;
+
+  /*Icon*/
+  --IconPrimary: #F6F6F6;
+  --IconSecondary: #686868;
+  --IconSecondaryHover: #EE683E;
+  --IconSecondaryFocus: #CD4E27;
+  --IconContrast: #303030;
+  --IconOnColour: #FCFCFC;
+  --IconAccent: #CD4E27;
+  --IconActive: #FA5252;
+  --IconPositive: #20C997;
+  --IconNegative: #FA5252;
+
+  /*link*/
+  --LinkAccent: #EE683E;
+
+  /*Control*/
+  --ControlPrimary: #CD4E27;
+  --ControlPrimaryHover: #EE683E;
+  --ControlPrimaryPressed: #CD4E27;
+  --ControlPrimaryDisabled: #686868;
+  --ControlAlternative: #303030;
+  --ControlAlternativeHover: #303030;
+  --ControlAlternativeDisabled: #303030;
+  --ControlSecondary: #303030;
+  --ControlSecondaryActiev: #CD4E27;
+  --ControlSwitch: #FCFCFC;
+
+  /*Error*/
+  --Error: #FA5252;
+  --Success: #20C997;
+  --Focus: #EE683E;
+  --ModalBackground: #EE683E;
+}

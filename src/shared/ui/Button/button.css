@@ -1,0 +1,36 @@
+.ui-button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ui-button--primary {
+  background-color: var(--ControlPrimary);
+  color: var(--TextContrast);
+  border-color: var(--ControlPrimary);
+}
+
+.ui-button--primary:hover {
+  background-color: var(--ControlPrimaryHover);
+  border-color: var(--ControlPrimaryHover);
+}
+
+.ui-button--primary:disabled {
+  background-color: var(--ControlPrimaryDisabled);
+  border-color: var(--ControlPrimaryDisabled);
+  cursor: not-allowed;
+}
+
+.ui-button--secondary {
+  background-color: var(--ControlSecondary);
+  color: var(--TextPrimary);
+  border-color: var(--Border);
+}
+
+.ui-button--secondary:hover {
+  border-color: var(--BorderHover-Pressed);
+}
