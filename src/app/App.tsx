@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./styles/variables.css"; 
 import "./styles/index.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthPage } from "../pages/AuthPage";
+import { AuthPage } from "../pages/AuthPage/AuthPage";
 
 function App() {
 

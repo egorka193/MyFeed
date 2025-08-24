@@ -1,14 +1,14 @@
 .ui-tabs__list {
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
+  margin-bottom: 32px;
 }
 
 .ui-tabs__button {
   padding: 5px 37px;
   border: 1px solid var(--BorderAccent);
-  background: var(--BgSecondary);
-  color: var(--TextSecondary2);
+  background: var(--BgPrimary);
+  color: var(--TextContrast2);
   cursor: pointer;
   transition: 0.2s;
 }
@@ -18,12 +18,6 @@
   color: var(--TextContrast);
 }
 
-.ui-tabs__content {
-  padding: 12px;
-  background: var(--BgPrimary);
-  border: 1px solid var(--Border);
-  border-radius: 6px;
-}
 .ui-tabs__button.left {
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;

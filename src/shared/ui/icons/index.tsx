@@ -1,3 +1,4 @@
+export { default as StarAuth } from "./StarAuth";
 export { default as ArrowLeft } from "./ArrowLeft";
 export { default as ArrowRight } from "./ArrowRight";
 export { default as BackArrow } from "./BackArrow";

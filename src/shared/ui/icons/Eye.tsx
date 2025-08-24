@@ -1,5 +1,5 @@
 import * as React from "react";
-const SvgEye = (props) => (
+const SvgEye = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="1em"
@@ -9,14 +9,14 @@ const SvgEye = (props) => (
     {...props}
   >
     <path
-      stroke="#BEB9B4"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.2}
       d="M2.052 12.822a1 1 0 0 1 0-.639C3.44 8.01 7.377 5 12.017 5c4.638 0 8.574 3.007 9.964 7.178.069.207.069.431 0 .639C20.592 16.99 16.655 20 12.015 20c-4.637 0-8.573-3.007-9.963-7.178"
     />
     <path
-      stroke="#BEB9B4"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.2}
