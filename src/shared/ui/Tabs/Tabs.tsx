@@ -1,28 +1,29 @@
-import { useState, type ReactNode } from "react";
-import "./Tabs.css";
+import styles from "./tabs.module.css";
 
 interface Tab {
+  id: string; 
   label: string;
-  content: ReactNode;
 }
 
 interface TabsProps {
   tabs: Tab[];
+  activeId: string;
+  onChange: (id: string) => void;
 }
 
-export const Tabs = ({ tabs }: TabsProps) => {
-  const [active, setActive] = useState(0);
-
+export const Tabs = ({ tabs, activeId, onChange }: TabsProps) => {
   return (
-    <div className="ui-tabs">
-      <div className="ui-tabs__list">
+    <div className={styles.uiTabs}>
+      <div className={styles.uiTabs__list}>
         {tabs.map((tab, i) => (
           <button
-            key={i}
-            className={`ui-tabs__button ${active === i ? "active" : ""} ${
-              i === 0 ? "left" : i === tabs.length - 1 ? "right" : ""
-            }`}
-            onClick={() => setActive(i)}
+            key={tab.id}
+            className={[
+              styles.uiTabs__button,
+              activeId === tab.id ? styles.active : "",
+              i === 0 ? styles.left : i === tabs.length - 1 ? styles.right : "",
+            ].join(" ")}
+            onClick={() => onChange(tab.id)}
           >
             {tab.label}
           </button>

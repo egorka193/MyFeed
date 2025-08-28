@@ -1,0 +1,14 @@
+schema: https://internship-social-media.purrweb.net/graphql
+documents: ./src/graphql/**/*.graphql
+generates:
+  ./src/graphql/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      apolloClientVersion: 4
+      withHooks: true      
+      withHOC: false       
+      withComponent: false 
+      reactApolloVersion: 3

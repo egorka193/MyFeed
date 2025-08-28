@@ -1,6 +1,6 @@
 import { type InputHTMLAttributes, useId } from "react";
-import "./Input.css";
-import { Eye, EyeSlash, Close, StarAuth, Success } from "@/shared/ui/icons";
+import styles from "./Input.module.css";
+import { Close, Success } from "@/shared/ui/icons";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -17,13 +17,13 @@ export const Input = ({ label, error, rightIcon, id, status, ...props }: InputPr
   const statusIcon = (() => {
     if (status === "error")
       return (
-        <span className="ui-input-status-icon error">
+        <span className={`${styles.uiInput__status__icon} ${styles.error}`}>
           <Close width={12} height={12} />
         </span>
       );
     if (status === "success")
       return (
-        <span className="ui-input-status-icon success">
+        <span className={`${styles.uiInput__status__icon} ${styles.success}`}>
           <Success width={12} height={12} />
         </span>
       );
@@ -31,26 +31,26 @@ export const Input = ({ label, error, rightIcon, id, status, ...props }: InputPr
   })();
 
   return (
-    <div className="ui-input-wrapper">
+    <div className={styles.uiInput__wrapper}>
       {label && (
-        <label className="ui-input-label" htmlFor={inputId}>
+        <label className={styles.uiInput__label} htmlFor={inputId}>
           {label}
         </label>
       )}
 
-      <div className={`ui-input-field ${error ? "ui-input-error" : ""}`}>
-        <input id={inputId} className="ui-input" {...props} />
+      <div className={`${styles.uiInput__field} ${error ? styles["uiInput-error"] : ""}`}>
+        <input id={inputId} className={styles.uiInput} {...props} />
         
         {rightIcon ? (
-          <span className={`ui-input-icon ${status === "error" ? "error" : ""}`}>
+          <span className={`${styles.uiInput__icon} ${status === "error" ? styles.error : ""}`}>
             {rightIcon}
           </span>
         ) : (
-          statusIcon && <span className="ui-input-icon">{statusIcon}</span>
+          statusIcon && <span className={styles.uiInput__icon}>{statusIcon}</span>
         )}
       </div>
 
-      {error && <p className="ui-input-error-text">{error}</p>}
+      {error && <p className={styles.uiInput__error__text}>{error}</p>}
     </div>
   );
 };

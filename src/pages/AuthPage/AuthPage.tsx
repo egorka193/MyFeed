@@ -1,9 +1,10 @@
-import { LoginForm } from "@/features/auth/LoginForm/LoginForm";
+import { AuthForm } from "@/features/auth/AuthForm/AuthForm";
+import styles from "./AuthPage.module.css";
 
 export const AuthPage = () => {
   return (
-    <div className="loginForm__wrapper" style={{ padding: "2rem", display: "flex", justifyContent: 'center' }}>
-      <LoginForm />
+    <div className={styles.loginForm__wrapper}>
+      <AuthForm />
     </div>
   );
 };

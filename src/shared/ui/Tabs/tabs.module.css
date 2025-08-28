@@ -1,10 +1,10 @@
-.ui-tabs__list {
+.uiTabs__list {
   display: flex;
   justify-content: center;
   margin-bottom: 32px;
 }
 
-.ui-tabs__button {
+.uiTabs__button {
   padding: 5px 37px;
   border: 1px solid var(--BorderAccent);
   background: var(--BgPrimary);
@@ -13,17 +13,17 @@
   transition: 0.2s;
 }
 
-.ui-tabs__button.active {
+.uiTabs__button.active {
   background: var(--ControlPrimary);
   color: var(--TextContrast);
 }
 
-.ui-tabs__button.left {
+.uiTabs__button.left {
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
 }
 
-.ui-tabs__button.right {
+.uiTabs__button.right {
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
