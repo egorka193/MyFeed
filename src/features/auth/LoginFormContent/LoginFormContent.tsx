@@ -4,6 +4,8 @@ import { Button } from "@/shared/ui/Button/Button";
 import { Eye, EyeSlash } from "@/shared/ui/icons";
 import { useState } from "react";
 import styles from "./loginFormContent.module.css";
+import { useSignIn } from "./api/__generated__/login";
+import { useNavigate } from "react-router-dom";
 
 type LoginFormValues = {
   email: string;
@@ -12,11 +14,15 @@ type LoginFormValues = {
 
 export const LoginFormContent = () => {
   const [showPass, setShowPass] = useState(false);
+  const [signIn, { data, loading }] = useSignIn()
+
+  const navigate = useNavigate()
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted }
+    setError,
+    formState: { errors }
   } = useForm<LoginFormValues>({
     defaultValues: {
       email: "",
@@ -24,8 +30,43 @@ export const LoginFormContent = () => {
     }
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    console.log("Login:", data);
+  
+
+  const onSubmit = async (formData: LoginFormValues) => {
+    try {
+      const result = await signIn({
+        variables: {
+          input: {
+            email: formData.email,
+            password: formData.password,
+          },
+        },
+      });
+
+      const problem = result.data?.userSignIn.problem;
+
+      if (problem) {
+        if (problem.message.toLowerCase().includes("email")) {
+          setError("email", { type: "manual", message: problem.message });
+        } else if (problem.message.toLowerCase().includes("password")) {
+          setError("password", { type: "manual", message: problem.message });
+        }
+        return;
+      }
+
+      if (result.data?.userSignIn.token) {
+        console.log("Токен:", result.data.userSignIn.token);
+        console.log("Пользователь:", result.data.userSignIn.user);
+
+        navigate("/main", { replace: true });
+      }
+
+      if (result.data?.userSignIn.problem) {
+        console.error("Ошибка авторизации:", result.data.userSignIn.problem.message);
+      }
+    } catch (err) {
+      console.error("Ошибка мутации:", err);
+    }
   };
 
   return (
@@ -38,16 +79,21 @@ export const LoginFormContent = () => {
         label="Email"
         type="email"
         {...register("email", { required: "Введите email" })}
-        status={isSubmitted ? (errors.email ? "error" : "success") : undefined}
-        error={errors.email?.message}
+        status={data?.userSignIn?.problem?.message.toLowerCase().includes("email") ? "error" : 
+                data?.userSignIn?.token ? "success" : undefined}
+        error={errors.email?.message || (data?.userSignIn?.problem?.message.toLowerCase().includes("email") ? data.userSignIn.problem.message : undefined)}
       />
 
       <Input
         label="Пароль"
         type={showPass ? "text" : "password"}
         {...register("password", { required: "Введите пароль" })}
-        status={isSubmitted ? (errors.password ? "error" : "success") : undefined}
-        error={errors.password?.message}
+        status={
+          errors.password || (data?.userSignIn?.problem?.message.toLowerCase().includes("password"))
+            ? "error"
+            : undefined
+        }
+        error={errors.password?.message || (data?.userSignIn?.problem?.message.toLowerCase().includes("password") ? data.userSignIn.problem.message : undefined)}
         rightIcon={
           showPass ? (
             <EyeSlash width={18} height={18} onClick={() => setShowPass(false)} />
@@ -57,9 +103,9 @@ export const LoginFormContent = () => {
         }
       />
 
-      <Button type="submit" variant="primary" className="login-btn">
-        Войти
-      </Button>
+      <Button type="submit" variant="primary" className="login-btn" disabled={loading}>
+        {loading ? "Входим..." : "Войти"}
+      </Button> 
     </form>
   );
 };

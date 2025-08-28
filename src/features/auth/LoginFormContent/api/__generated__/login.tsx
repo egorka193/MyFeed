@@ -1,6 +1,6 @@
 import * as Types from "../../../../../shared/types/api-types";
 
-import { DocumentNode } from "graphql";
+import { type DocumentNode } from "graphql";
 import * as Apollo from "@apollo/client";
 const defaultOptions = {} as const;
 export type SignInVariables = Types.Exact<{
