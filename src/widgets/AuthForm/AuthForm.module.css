@@ -1,0 +1,18 @@
+.authForm {
+  background: var(--BgPrimary);
+  border-radius: 16px;
+  max-width: 416px;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 36px;
+}
+.authForm__header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.authForm__header h2{
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: var(--TextPrimary);
+}
