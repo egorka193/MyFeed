@@ -1,4 +1,3 @@
-overwrite: true
 schema: https://internship-social-media.purrweb.net/graphql
 documents: "src/**/*.{graphql,gql}"
 hooks:

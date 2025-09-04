@@ -1,0 +1,18 @@
+mutation EditProfile(
+  $input: EditProfileRequest!
+) {
+  userEditProfile(input: $input) {
+    user {
+      id
+      email
+      firstName
+      lastName
+      middleName
+      avatarUrl
+      birthDate
+      country
+      gender
+      phone
+    }
+  }
+}

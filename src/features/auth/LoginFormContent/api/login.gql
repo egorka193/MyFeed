@@ -1,10 +1,6 @@
 mutation SignIn($input: SignInRequest!) {
   userSignIn(input: $input) {
     token
-    user {
-      id
-      email
-    }
     problem {
       message
     }

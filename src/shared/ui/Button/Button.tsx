@@ -1,15 +1,21 @@
-import { type ButtonHTMLAttributes } from "react";
-import "./Button.css";
+import { Loader } from "@/shared/ui/icons";
+import styles from "./button.module.css";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  loading?: boolean;
   variant?: "primary" | "secondary";
 }
 
-export const Button = ({ variant = "primary", className = "", ...props }: ButtonProps) => {
+export const Button: React.FC<ButtonProps> = ({ loading, children, className, ...props }) => {
   return (
     <button
-      className={`ui-button ui-button--${variant} ${className}`}
       {...props}
-    />
+      className={`${styles.button} ${className} ${loading ? styles.loading : ""}`}
+      disabled={props.disabled || loading}
+    >
+      {loading && <Loader className={styles.spinner} />}
+      <span className={loading ? styles.textHidden : ""}>{children}</span>
+    </button>
   );
 };
+

@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Tabs } from "@/shared/ui/Tabs/Tabs";
 import { StarAuth } from "@/shared/ui/icons";
-import { LoginFormContent } from "../LoginFormContent/LoginFormContent";
-import { RegistrationFormContent } from "../RegistrationFormContent/RegistrationFormContent";
+import { LoginFormContent } from "../../features/auth/LoginFormContent/LoginFormContent";
+import { RegistrationFormContent } from "../../features/auth/RegistrationFormContent/RegistrationFormContent";
 import styles from "./authForm.module.css";
 
 export const AuthForm = () => {
   const [activeTab, setActiveTab] = useState<"login" | "register">("login");
+
+  const tabs = useMemo(
+    () => [
+      { id: "login", label: "Авторизация" },
+      { id: "register", label: "Регистрация" },
+    ],
+    []
+  );
 
   return (
     <div className={styles.authForm}>
@@ -16,12 +24,9 @@ export const AuthForm = () => {
       </div>
 
       <Tabs
-        tabs={[
-          { id: "login", label: "Авторизация" },
-          { id: "register", label: "Регистрация" },
-        ]}
+        tabs={tabs}
         activeId={activeTab}
-        onChange={setActiveTab}
+        onChange={(id) => setActiveTab(id as "login" | "register")}
       />
 
       <div className={styles.authForm__content}>

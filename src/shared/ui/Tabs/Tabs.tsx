@@ -1,17 +1,17 @@
 import styles from "./tabs.module.css";
 
-interface Tab {
-  id: string; 
+interface Tab<T extends string> {
+  id: T; 
   label: string;
 }
 
-interface TabsProps {
-  tabs: Tab[];
-  activeId: string;
-  onChange: (id: string) => void;
+interface TabsProps<T extends string> {
+  tabs: Tab<T>[];
+  activeId: T;
+  onChange: (id: T) => void;
 }
 
-export const Tabs = ({ tabs, activeId, onChange }: TabsProps) => {
+export const Tabs = <T extends string>({ tabs, activeId, onChange }: TabsProps<T>) => {
   return (
     <div className={styles.uiTabs}>
       <div className={styles.uiTabs__list}>

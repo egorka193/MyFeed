@@ -31,7 +31,9 @@
   position: absolute;
   right: 12px;
   cursor: pointer;
-  color: #999;
+  color: var(--IconSecondary);
+  border: none;
+  background-color: var(--BgThumbnail);
 }
 
 .uiInput-error input {

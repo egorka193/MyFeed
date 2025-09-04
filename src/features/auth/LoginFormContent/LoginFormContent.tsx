@@ -6,6 +6,24 @@ import { useState } from "react";
 import styles from "./loginFormContent.module.css";
 import { useSignIn } from "./api/__generated__/login";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser, setToken } from "../model/authSlice";
+import { useUserMeLazyQuery } from "@/shared/api/user/__generated__/userMe";
+import { InputPassword } from "@/shared/ui/InputPassword/InputPassword";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const loginSchema = yup.object({
+  email: yup
+    .string()
+    .email("Некорректный формат email")
+    .required("Введите email"),
+  password: yup
+    .string()
+    .min(6, "Пароль должен содержать минимум 6 символов")
+    .required("Введите пароль"),
+});
+
 
 type LoginFormValues = {
   email: string;
@@ -13,9 +31,11 @@ type LoginFormValues = {
 };
 
 export const LoginFormContent = () => {
-  const [showPass, setShowPass] = useState(false);
-  const [signIn, { data, loading }] = useSignIn()
-
+  const [signIn, { data, loading }] = useSignIn();
+  const [fetchUserMe] = useUserMeLazyQuery(); 
+  
+  
+  const dispatch = useDispatch();
   const navigate = useNavigate()
 
   const {
@@ -24,13 +44,12 @@ export const LoginFormContent = () => {
     setError,
     formState: { errors }
   } = useForm<LoginFormValues>({
+    resolver: yupResolver(loginSchema),
     defaultValues: {
       email: "",
       password: ""
     }
   });
-
-  
 
   const onSubmit = async (formData: LoginFormValues) => {
     try {
@@ -54,11 +73,24 @@ export const LoginFormContent = () => {
         return;
       }
 
-      if (result.data?.userSignIn.token) {
-        console.log("Токен:", result.data.userSignIn.token);
-        console.log("Пользователь:", result.data.userSignIn.user);
+      const token = result.data?.userSignIn.token ?? "";
 
-        navigate("/main", { replace: true });
+      if (token) {
+        console.log(result.data?.userSignIn);
+
+        dispatch(setToken(token));
+
+        try {
+          const meResult = await fetchUserMe();
+          if (meResult.data?.userMe) {
+            dispatch(setUser(meResult.data.userMe));
+          }
+        } catch (err) {
+          console.error("Ошибка при загрузке userMe:", err);
+        }
+
+        navigate("/main");
+        console.log("Свежий токен:", token);
       }
 
       if (result.data?.userSignIn.problem) {
@@ -78,33 +110,34 @@ export const LoginFormContent = () => {
       <Input
         label="Email"
         type="email"
-        {...register("email", { required: "Введите email" })}
-        status={data?.userSignIn?.problem?.message.toLowerCase().includes("email") ? "error" : 
-                data?.userSignIn?.token ? "success" : undefined}
-        error={errors.email?.message || (data?.userSignIn?.problem?.message.toLowerCase().includes("email") ? data.userSignIn.problem.message : undefined)}
+        {...register("email")} 
+        status={errors.email ? "error" : data?.userSignIn?.token ? "success" : undefined}
+        error={errors.email?.message}
+        disabled={loading}
       />
 
-      <Input
+      <InputPassword
         label="Пароль"
-        type={showPass ? "text" : "password"}
-        {...register("password", { required: "Введите пароль" })}
-        status={
-          errors.password || (data?.userSignIn?.problem?.message.toLowerCase().includes("password"))
-            ? "error"
-            : undefined
-        }
-        error={errors.password?.message || (data?.userSignIn?.problem?.message.toLowerCase().includes("password") ? data.userSignIn.problem.message : undefined)}
-        rightIcon={
-          showPass ? (
-            <EyeSlash width={18} height={18} onClick={() => setShowPass(false)} />
-          ) : (
-            <Eye width={18} height={18} onClick={() => setShowPass(true)} />
-          )
-        }
+        {...register("password")} 
+        status={errors.password ? "error" : undefined}
+        error={errors.password?.message}
+        disabled={loading}
       />
 
-      <Button type="submit" variant="primary" className="login-btn" disabled={loading}>
-        {loading ? "Входим..." : "Войти"}
+      {errors.root && (
+        <div className={styles.loginForm__error}>
+          {errors.root.message}
+        </div>
+      )}
+
+      <Button 
+        type="submit" 
+        variant="primary" 
+        className={styles.loginForm__button}
+        loading={loading}
+        disabled={loading}
+      >
+        Войти
       </Button> 
     </form>
   );

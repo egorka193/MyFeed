@@ -3,29 +3,26 @@ import * as Types from "../../../../../shared/types/api-types";
 import { type DocumentNode } from "graphql";
 import * as Apollo from "@apollo/client";
 const defaultOptions = {} as const;
-export type SignInVariables = Types.Exact<{
-  input: Types.SignInRequest;
+export type SignUpVariables = Types.Exact<{
+  input: Types.SignUpRequest;
 }>;
 
-export type SignIn = {
+export type SignUp = {
   __typename: "Mutation";
-  userSignIn: {
-    __typename: "SignInResponse";
+  userSignUp: {
+    __typename: "SignUpResponse";
     token?: string | null;
-    problem?: {
-      __typename: "EmailOrPasswordIncorrectProblem";
-      message: string;
-    } | null;
+    problem?: { __typename: "EmailAlreadyUsedProblem"; message: string } | null;
   };
 };
 
-export const SignInDocument = {
+export const SignUpDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "mutation",
-      name: { kind: "Name", value: "SignIn" },
+      name: { kind: "Name", value: "SignUp" },
       variableDefinitions: [
         {
           kind: "VariableDefinition",
@@ -37,7 +34,7 @@ export const SignInDocument = {
             kind: "NonNullType",
             type: {
               kind: "NamedType",
-              name: { kind: "Name", value: "SignInRequest" },
+              name: { kind: "Name", value: "SignUpRequest" },
             },
           },
         },
@@ -47,7 +44,7 @@ export const SignInDocument = {
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "userSignIn" },
+            name: { kind: "Name", value: "userSignUp" },
             arguments: [
               {
                 kind: "Argument",
@@ -83,34 +80,34 @@ export const SignInDocument = {
     },
   ],
 } as unknown as DocumentNode;
-export type SignInMutationFn = Apollo.MutationFunction<SignIn, SignInVariables>;
+export type SignUpMutationFn = Apollo.MutationFunction<SignUp, SignUpVariables>;
 
 /**
- * __useSignIn__
+ * __useSignUp__
  *
- * To run a mutation, you first call `useSignIn` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSignIn` returns a tuple that includes:
+ * To run a mutation, you first call `useSignUp` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignUp` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [signIn, { data, loading, error }] = useSignIn({
+ * const [signUp, { data, loading, error }] = useSignUp({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useSignIn(
-  baseOptions?: Apollo.MutationHookOptions<SignIn, SignInVariables>,
+export function useSignUp(
+  baseOptions?: Apollo.MutationHookOptions<SignUp, SignUpVariables>,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<SignIn, SignInVariables>(SignInDocument, options);
+  return Apollo.useMutation<SignUp, SignUpVariables>(SignUpDocument, options);
 }
-export type SignInHookResult = ReturnType<typeof useSignIn>;
-export type SignInMutationResult = Apollo.MutationResult<SignIn>;
-export type SignInMutationOptions = Apollo.BaseMutationOptions<
-  SignIn,
-  SignInVariables
+export type SignUpHookResult = ReturnType<typeof useSignUp>;
+export type SignUpMutationResult = Apollo.MutationResult<SignUp>;
+export type SignUpMutationOptions = Apollo.BaseMutationOptions<
+  SignUp,
+  SignUpVariables
 >;

@@ -1,9 +1,14 @@
 import { useForm } from "react-hook-form";
 import { Input } from "@/shared/ui/Input/Input";
 import { Button } from "@/shared/ui/Button/Button";
-import { Eye, EyeSlash } from "@/shared/ui/icons";
 import { useState } from "react";
 import styles from "./RegistrationFormContent.module.css";
+import { useSignUp } from "./api/__generated__/registration"; 
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setToken, setUser } from "@/features/auth/model/authSlice";
+import { useEditProfile } from "@/features/editProfile/api/__generated__/editProfile";
+import { useUserMeLazyQuery } from "@/shared/api/user/__generated__/userMe";
 
 type Step1Values = {
   email: string;
@@ -24,11 +29,20 @@ export const RegistrationFormContent = () => {
   const [showRepeatPass, setShowRepeatPass] = useState(false);
   const [step, setStep] = useState(1);
 
+  const [signUp] = useSignUp();
+  const [editProfile] = useEditProfile();
+  const [fetchUserMe] = useUserMeLazyQuery();;
+
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
     watch,
     trigger,
+    setError,
     formState: { errors, isSubmitted }
   } = useForm<RegistrationFormValues>({
     defaultValues: {
@@ -43,12 +57,55 @@ export const RegistrationFormContent = () => {
 
   const passwordValue = watch("password");
 
-  const onSubmit = (data: RegistrationFormValues) => {
-    console.log("Register:", data);
+  const onSubmit = async (formData: RegistrationFormValues) => {
+    try {
+      const result = await signUp({
+        variables: {
+          input: {
+            email: formData.email,
+            password: formData.password,
+            passwordConfirm: formData.repeatPassword,
+          },
+        },
+      });
+  
+      const token = result.data?.userSignUp.token ?? "";
+  
+      if (token) {
+        dispatch(setToken(token));
+  
+        await editProfile({
+          variables: {
+            input: {
+              email: formData.email,
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              middleName: formData.middleName,
+            },
+          },
+        });
+  
+        const meResult = await fetchUserMe();
+  
+        if (meResult.data?.userMe) {
+          dispatch(setUser(meResult.data.userMe));
+        }
+  
+        navigate("/main");
+        console.log("Свежий токен:", token);
+      } else if (result.data?.userSignUp.problem) {
+        setError("email", {
+          type: "server",
+          message: result.data.userSignUp.problem.message,
+        });
+      }
+    } catch (err) {
+      console.error("Ошибка регистрации:", err);
+    }
   };
+  
 
   const handleNextStep = async () => {
-    // валидируем только поля 1 шага
     const isValid = await trigger(["email", "password", "repeatPassword"]);
     if (isValid) {
       setStep(2);
@@ -84,13 +141,6 @@ export const RegistrationFormContent = () => {
             })}
             status={isSubmitted ? (errors.password ? "error" : "success") : undefined}
             error={errors.password?.message}
-            rightIcon={
-              showPass ? (
-                <EyeSlash width={18} height={18} onClick={() => setShowPass(false)} />
-              ) : (
-                <Eye width={18} height={18} onClick={() => setShowPass(true)} />
-              )
-            }
           />
 
           <Input
@@ -105,21 +155,6 @@ export const RegistrationFormContent = () => {
               isSubmitted ? (errors.repeatPassword ? "error" : "success") : undefined
             }
             error={errors.repeatPassword?.message}
-            rightIcon={
-              showRepeatPass ? (
-                <EyeSlash
-                  width={18}
-                  height={18}
-                  onClick={() => setShowRepeatPass(false)}
-                />
-              ) : (
-                <Eye
-                  width={18}
-                  height={18}
-                  onClick={() => setShowRepeatPass(true)}
-                />
-              )
-            }
           />
 
           <Button type="button" variant="primary" onClick={handleNextStep}>

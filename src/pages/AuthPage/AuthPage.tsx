@@ -1,4 +1,4 @@
-import { AuthForm } from "@/features/auth/AuthForm/AuthForm";
+import { AuthForm } from "@/widgets/AuthForm/AuthForm";
 import styles from "./AuthPage.module.css";
 
 export const AuthPage = () => {
