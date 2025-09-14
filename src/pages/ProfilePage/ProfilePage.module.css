@@ -1,91 +1,77 @@
-.container {
-  max-width: 480px;
-  margin: 40px auto;
-  padding: 32px 24px;
+.profileCard {
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 32px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
+}
+.profileTitle {
+  color: var(--ControlPrimary);
 }
 
-.title {
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--TextPrimary);
-}
-
-.avatar {
-  width: 100px;
-  height: 100px;
+.avatarEditIcon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: var(--BgPrimary); 
   border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid var(--Focus);
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 
 .form {
   width: 100%;
+  max-width: 400px; 
+  margin: 0 auto;   
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.genderGroup {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 14px;
-  color: var(--TextSecondary);
-}
-
-.genderLabel {
-  font-weight: 500;
-}
-
-.genderOption {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  gap: 24px;
 }
 
 .buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 12px;
-  margin-top: 20px;
 }
-
-.saveBtn {
-  flex: 1;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  background-color: var(--Focus);
-  color: #fff;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.saveBtn:hover {
-  background-color: #0d6efd;
+.buttons button {
+  width: 100%;
 }
 
 .cancelBtn {
-  flex: 1;
+  border: 1px solid var(--ControlPrimary);
+  color: var(--ControlPrimary);
+  background: transparent;
   padding: 10px 16px;
-  border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #f8f9fa;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
 
 .cancelBtn:hover {
-  background-color: #e9ecef;
+  background: var(--ControlAlternativeHover);
+}
+
+.saveBtn {
+  background: var(--ControlPrimary);
+  color: var(--TextContrast);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.saveBtn:disabled {
+  background: var(--ControlPrimaryDisabled);
+  cursor: not-allowed;
+  opacity: 0.7;
 }

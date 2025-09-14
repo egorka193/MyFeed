@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector, type TypedUseSelectorHook } from "react-redux";
 import authReducer from "../../features/auth/model/authSlice";
+import favoritesReducer from "../../features/favorites/model/favoritesSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    favorites: favoritesReducer,
   },
 });
 

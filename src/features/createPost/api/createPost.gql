@@ -1,0 +1,26 @@
+mutation PostCreate($input: CreatePostRequest!) {
+  postCreate(input: $input) {
+    id
+    title
+    description
+    mediaUrl
+    likesCount
+    isLiked
+    author {
+      id
+      firstName
+      lastName
+      middleName
+      avatarUrl
+      email
+      birthDate
+      country
+      gender
+      phone
+      createdAt
+      updatedAt
+      deletedAt
+    }
+    createdAt
+  }
+}

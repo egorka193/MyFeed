@@ -1,0 +1,49 @@
+.dateInputWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 4px;
+}
+
+.dateInputLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--TextPrimary);
+}
+
+.dateInputField {
+  width: 100%;
+  padding: 10px 40px 10px 16px; /* справа оставляем место под иконку */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: var(--BgThumbnail);
+  outline: none;
+  cursor: pointer;
+}
+
+.dateInputField:focus {
+  border-color: var(--Focus);
+}
+
+.dateInputIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--IconSecondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--BgThumbnail);
+}
+
+.dateInputError input {
+  border-color: var(--Error);
+}
+
+.dateInputErrorText {
+  color: var(--Error);
+  font-size: 12px;
+}

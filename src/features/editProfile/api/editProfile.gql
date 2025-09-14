@@ -16,3 +16,4 @@ mutation EditProfile(
     }
   }
 }
+

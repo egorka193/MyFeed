@@ -7,6 +7,8 @@ generates:
   src/shared/types/api-types.ts:
     plugins:
       - "typescript"
+    config:
+      useTypeImports: true
   src/:
     preset: near-operation-file
     presetConfig:
@@ -17,6 +19,7 @@ generates:
       - typescript-operations
       - typescript-react-apollo
     config:
+      useTypeImports: true
       documentMode: "documentNodeImportFragments"
       namingConvention:
         enumValues: keep

@@ -1,8 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Input } from "@/shared/ui/Input/Input";
 import { Button } from "@/shared/ui/Button/Button";
-import { Eye, EyeSlash } from "@/shared/ui/icons";
-import { useState } from "react";
 import styles from "./loginFormContent.module.css";
 import { useSignIn } from "./api/__generated__/login";
 import { useNavigate } from "react-router-dom";
