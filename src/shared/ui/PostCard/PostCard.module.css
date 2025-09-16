@@ -1,0 +1,127 @@
+.postCard {
+  background: var(--BgPrimary);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  margin-bottom: 24px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.postAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 1px solid var(--Border);
+}
+
+.postAuthor {
+  display: flex;
+  flex-direction: column;
+}
+
+.postName {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--TextPrimary);
+}
+
+.postDate {
+  font-size: 14px;
+  color: var(--TextSecondary);
+}
+
+.postTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 12px 0;
+  color: var(--TextPrimary);
+  cursor: pointer;
+}
+
+.postImage {
+  width: 100%;
+  border-radius: 12px;
+  margin: 12px 0;
+  object-fit: cover;
+  background: var(--BgThumbnail);
+  cursor: pointer;
+}
+
+.postDescription {
+  font-size: 15px;
+  color: var(--TextSecondary2);
+  line-height: 1.5;
+  margin-bottom: 16px;
+  white-space: pre-wrap; 
+  word-break: break-word; 
+  overflow-wrap: anywhere;
+}
+
+.postFooter {
+  display: flex;
+  justify-content: flex-start;
+  gap: 24px;
+}
+
+.likeBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  color: var(--TextAccent);
+  transition: color 0.2s ease;
+}
+
+.likeBtn:hover {
+  color: var(--ControlPrimaryHover);
+}
+
+.readMoreInlineBtn {
+  background: none;
+  border: none;
+  color: var(--TextAccent);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 8px;
+  transition: color 0.2s ease;
+}
+
+.readMoreInlineBtn:hover {
+  color: var(--ControlPrimaryHover);
+}
+
+.likeBtn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 24px; 
+}
+
+.likeBtn svg path {
+  fill: #fff;    
+  stroke: #888; 
+}
+
+.likeBtn:hover svg path {
+  stroke: #f03e3e; 
+}
+
+.liked svg path {
+  fill: var(--IconActive, #F03E3E);  
+  stroke: var(--IconActive, #F03E3E);
+}
+
+
+

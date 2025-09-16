@@ -1,11 +1,17 @@
+import type { GenderType } from "@/shared/types/api-types";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  middleName: string;
   email: string;
-  firstName?: string | null;
-  lastName?: string | null;
-  middleName?: string | null;
+  phone?: string;
+  country?: string;
+  gender?: GenderType;
   avatarUrl?: string | null;
+  birthDate?: string; // <-- добавляем это поле
 }
 export interface AuthState {
   token: string;

@@ -1,0 +1,23 @@
+.createFormActions {
+  display: flex;
+  align-items: start;
+  gap: 24px;
+}
+.createFormActions button{
+  width: 165px;
+  height: 44px;
+}
+.createFormTitle {
+  color: var(--TextContrast2);
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+.createPostButton {
+
+}
+
+.cancelButton {
+  color: var(--TextContrast2);
+  background-color: var(--BgPrimary);
+  border: 1px solid var(--TextContrast2);
+}

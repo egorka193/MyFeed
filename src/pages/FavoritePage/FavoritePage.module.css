@@ -1,0 +1,30 @@
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.illustration {
+  width: 450px;
+  height: 450px;
+  margin-bottom: 20px;
+}
+
+.noFavoritesBox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.noFavoritesText {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+.goHomeButton {
+  width: 165px;
+}

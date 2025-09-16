@@ -18,3 +18,4 @@ export { default as OpenDropDown } from "./OpenDropDown";
 export { default as PlaceholderPhoto } from "./PlaceholderPhoto";
 export { default as Share } from "./Share";
 export { default as Success } from "./Success";
+export { default as Illustration } from "./Illustration";

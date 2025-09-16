@@ -1,0 +1,42 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  color: var(--TextPrimary);
+}
+
+.options {
+  display: flex;
+  flex-direction: column; 
+  gap: 16px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  position: relative;
+}
+
+.option input {
+  display: none;
+}
+
+.customRadio {
+  width: 24px;
+  height: 24px;
+  border: 6px solid var(--BgProgressBar);
+  border-radius: 50%;
+  background: var(--BgProgressBar);
+  transition: all 0.2s ease;
+}
+
+.option input:checked + .customRadio {
+  border-color: var(--ControlPrimary);
+  box-shadow: inset 0 0 0 4px var(--BgPrimary);
+}

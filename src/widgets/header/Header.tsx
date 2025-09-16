@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./Header.module.css";
 import type { RootState } from "@/shared/store/store";
@@ -39,7 +38,7 @@ export const Header = () => {
             Главная
           </NavLink>
           <NavLink
-            to="/posts"
+            to="/my-posts"
             className={({ isActive }) =>
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
             }

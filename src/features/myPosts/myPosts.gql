@@ -1,0 +1,39 @@
+query myPosts(
+    $input: FindMyPostsRequest!
+) {
+    myPosts(input: $input) {
+        data {
+            id
+            title
+            description
+            isLiked
+            likesCount
+            mediaUrl
+            createdAt
+            updatedAt
+            deletedAt
+            authorId
+            author {
+                id
+                firstName
+                lastName
+                middleName
+                avatarUrl
+                email        
+                createdAt
+                updatedAt
+            }
+        }
+        pageInfo {
+            count
+            perPage
+            afterCursor 
+        }
+    }
+}
+
+mutation myPostDelete($input: PostIdRequest!) {
+    postDelete(input: $input) {
+        ok
+    }
+}

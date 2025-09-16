@@ -1,8 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Input } from "@/shared/ui/Input/Input";
 import { Button } from "@/shared/ui/Button/Button";
-import { Eye, EyeSlash } from "@/shared/ui/icons";
-import { useState } from "react";
 import styles from "./loginFormContent.module.css";
 import { useSignIn } from "./api/__generated__/login";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +10,7 @@ import { useUserMeLazyQuery } from "@/shared/api/user/__generated__/userMe";
 import { InputPassword } from "@/shared/ui/InputPassword/InputPassword";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { GenderType } from "@/shared/types/api-types";
 
 const loginSchema = yup.object({
   email: yup
@@ -76,25 +75,32 @@ export const LoginFormContent = () => {
       const token = result.data?.userSignIn.token ?? "";
 
       if (token) {
-        console.log(result.data?.userSignIn);
 
         dispatch(setToken(token));
 
         try {
           const meResult = await fetchUserMe();
           if (meResult.data?.userMe) {
-            dispatch(setUser(meResult.data.userMe));
+            const user = meResult.data.userMe;
+            dispatch(setUser({
+              ...user,
+              firstName: user.firstName ?? "",
+              lastName: user.lastName ?? "",
+              middleName: user.middleName ?? "",
+              birthDate: user.birthDate ?? "",
+              gender: (user.gender === "MALE" || user.gender === "FEMALE") 
+              ? (user.gender as GenderType) 
+              : undefined,
+              phone: user.phone ?? "",
+              country: user.country ?? "",
+              avatarUrl: user.avatarUrl ?? null,
+            }));
           }
         } catch (err) {
           console.error("Ошибка при загрузке userMe:", err);
         }
 
         navigate("/main");
-        console.log("Свежий токен:", token);
-      }
-
-      if (result.data?.userSignIn.problem) {
-        console.error("Ошибка авторизации:", result.data.userSignIn.problem.message);
       }
     } catch (err) {
       console.error("Ошибка мутации:", err);

@@ -10,11 +10,12 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   showPasswordToggle?: boolean;
   isPasswordVisible?: boolean;
   onTogglePassword?: () => void;
+  suffix?: React.ReactNode;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { label, error, id, status, showPasswordToggle, isPasswordVisible, onTogglePassword, ...props },
+    { label, error, id, status, showPasswordToggle, isPasswordVisible, onTogglePassword, suffix, ...props },
     ref
   ) => {
     const generatedId = useId();
@@ -63,7 +64,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               {isPasswordVisible ? <EyeSlash /> : <Eye />}
             </button>
           ) : (
-            statusIcon && <span className={styles.uiInput__icon}>{statusIcon}</span>
+            <>
+              {suffix && <span className={styles.uiInput__icon}>{suffix}</span>}
+              {statusIcon && <span className={styles.uiInput__icon}>{statusIcon}</span>}
+            </>
           )}
         </div>
 
