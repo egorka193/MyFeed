@@ -1,7 +1,7 @@
 .registrationForm__subtitle {
   font-size: 16px;
   color: var(--TextSecondary);
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 .registrationForm__title {
   color: var(--TextAccent);
@@ -9,6 +9,6 @@
   font-weight: 700;
   font-size: 20px;
   line-height: 20px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   text-align: center;
 }

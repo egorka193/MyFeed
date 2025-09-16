@@ -28,6 +28,9 @@ export type GetPosts = {
         firstName?: string | null;
         lastName?: string | null;
         avatarUrl?: string | null;
+        createdAt: string;
+        updatedAt: string;
+        email: string;
       };
     }> | null;
     pageInfo?: {
@@ -138,6 +141,18 @@ export const GetPostsDocument = {
                             {
                               kind: "Field",
                               name: { kind: "Name", value: "avatarUrl" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "createdAt" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "updatedAt" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "email" },
                             },
                           ],
                         },

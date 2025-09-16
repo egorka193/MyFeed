@@ -12,16 +12,22 @@ query myPosts(
             createdAt
             updatedAt
             deletedAt
+            authorId
             author {
                 id
                 firstName
                 lastName
                 middleName
                 avatarUrl
+                email        
+                createdAt
+                updatedAt
             }
         }
-        pageInfo{
+        pageInfo {
             count
+            perPage
+            afterCursor 
         }
     }
 }

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { clearCredentials, setUser } from "@/features/auth/model/authSlice";
 import { useUserMeLazyQuery } from "@/shared/api/user/__generated__/userMe";
 import { useAppSelector, type RootState } from "@/shared/store/store";
+import type { GenderType } from "@/shared/types/api-types";
 
 interface Props {
   children: React.ReactNode;
@@ -27,12 +28,24 @@ export const AuthInitializer = ({ children }: Props) => {
         const userResult = await fetchUserMe();
 
         if (userResult.data?.userMe) {
-          dispatch(setUser(userResult.data.userMe));
-        } else {
+            const user = userResult.data.userMe;
+            dispatch(setUser({
+              ...user,
+              firstName: user.firstName ?? "",
+              lastName: user.lastName ?? "",
+              middleName: user.middleName ?? "",
+              birthDate: user.birthDate ?? "",
+              gender: (user.gender === "MALE" || user.gender === "FEMALE") 
+              ? (user.gender as GenderType) 
+              : undefined,
+              phone: user.phone ?? "",
+              country: user.country ?? "",
+              avatarUrl: user.avatarUrl ?? null,
+            }));
+          } else {
           dispatch(clearCredentials());
         }
       } catch (err) {
-        console.error("Ошибка получения userMe:", err);
         dispatch(clearCredentials());
       } finally {
         setInitialized(true);

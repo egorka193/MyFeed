@@ -27,3 +27,9 @@
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
+
+@media (max-width: 480px) {
+  .uiTabs__list {
+    height: 44px;
+  }
+}

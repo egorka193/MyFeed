@@ -13,7 +13,7 @@
 
 .dateInputField {
   width: 100%;
-  padding: 10px 40px 10px 16px; /* справа оставляем место под иконку */
+  padding: 10px 40px 10px 16px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 16px;

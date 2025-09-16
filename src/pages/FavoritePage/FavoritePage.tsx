@@ -10,6 +10,9 @@ export const FavoritesPage = () => {
   const favorites = useAppSelector((state) => state.favorites.items);
   const currentUser = useAppSelector(state => state.auth.user);
   const navigate = useNavigate();
+  const handleGoMain = () => {
+    navigate('/');
+  };
 
   return (
     <PageContainer>
@@ -24,7 +27,7 @@ export const FavoritesPage = () => {
           <Button
             variant="primary"
             className={styles.goHomeButton}
-            onClick={() => navigate('/')}
+            onClick={handleGoMain}
           >
             На главную
           </Button>

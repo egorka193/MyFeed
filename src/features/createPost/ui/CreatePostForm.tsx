@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { usePostCreate } from "@/features/createPost/api/__generated__/createPost";
-import { useMyPostDelete } from "@/features/myPosts/__generated__/myPosts"; // ⚡️ для удаления
+import { useMyPostDelete } from "@/features/myPosts/__generated__/myPosts"; 
 import { Input } from "@/shared/ui/Input/Input";
 import { Button } from "@/shared/ui/Button/Button";
 import { Dropzone } from "@/shared/ui/DropZone/DropZone";
@@ -26,6 +26,18 @@ export const CreatePostForm = ({ initialPost, onSuccess, onCancel }: CreatePostF
   const [createPost, { loading: creating, error: createError }] = usePostCreate();
   const [deletePost] = useMyPostDelete();
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDescription(e.target.value);
+  };
+
+  const handleCancel = () => {
+    onCancel();
+  };
+
   const handleFileUpload = async (file: File) => {
     try {
       setUploading(true);
@@ -44,8 +56,6 @@ export const CreatePostForm = ({ initialPost, onSuccess, onCancel }: CreatePostF
       const uploadedUrl = link.split("?")[0];
       setMediaUrl(uploadedUrl);
       setPreview(URL.createObjectURL(file));
-    } catch (err) {
-      console.error("Ошибка загрузки файла:", err);
     } finally {
       setUploading(false);
       setTimeout(() => setUploadProgress(0), 1000);
@@ -118,7 +128,7 @@ export const CreatePostForm = ({ initialPost, onSuccess, onCancel }: CreatePostF
       <Input
         label="Заголовок"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={handleTitleChange}
         required
       />
 
@@ -127,7 +137,7 @@ export const CreatePostForm = ({ initialPost, onSuccess, onCancel }: CreatePostF
       <Input
         label="Описание"
         value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        onChange={handleDescriptionChange}
         required
         minLength={40}
         error={validationError ?? undefined}
@@ -135,7 +145,7 @@ export const CreatePostForm = ({ initialPost, onSuccess, onCancel }: CreatePostF
       />
 
       <div className={styles.createFormActions}>
-        <Button type="button" variant="secondary" onClick={onCancel} className={styles.cancelButton}>
+        <Button type="button" variant="secondary" onClick={handleCancel} className={styles.cancelButton}>
           Отмена
         </Button>
         <Button type="submit" variant="primary" loading={creating} className={styles.createPostButton}>
@@ -143,7 +153,11 @@ export const CreatePostForm = ({ initialPost, onSuccess, onCancel }: CreatePostF
         </Button>
       </div>
 
-      {createError && !validationError && (
+      {validationError && (
+        <p className={styles.errorText}>Ошибка: {validationError}</p>
+      )}
+
+      {!validationError && createError && (
         <p className={styles.errorText}>Ошибка: {createError.message}</p>
       )}
     </form>

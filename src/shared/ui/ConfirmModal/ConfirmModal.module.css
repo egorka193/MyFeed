@@ -1,10 +1,12 @@
+/* ConfirmModal.module.css */
+
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,6 +21,7 @@
   max-width: 90%;
   height: auto;
   position: relative;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
 }
 
 .title {
@@ -40,26 +43,31 @@
   display: flex;
   justify-content: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
-.discardBtn {
+.actionBtn {
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.actionBtn.primary {
+  background: var(--ControlPrimary);
+  color: var(--TextContrast);
+  border: none;
+}
+
+.actionBtn.primary:hover {
+  background: var(--ControlPrimaryHover);
+}
+
+.actionBtn.secondary {
+  background: transparent;
   border: 1px solid var(--BorderAccent);
   color: var(--BorderAccent);
-  border-radius: 8px;
-  padding: 8px 16px;
-  cursor: pointer;
-}
-
-.saveBtn {
-  background: var(--ControlPrimary);
-  border-radius: 8px;
-  border: none;
-  color: var(--TextContrast);
-  padding: 8px 16px;
-  cursor: pointer;
-}
-.saveBtn:hover {
-  background: var(--ControlPrimaryHover);
 }
 
 .closeBtn {
@@ -73,5 +81,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--IconSecondary)
+  color: var(--IconSecondary);
 }

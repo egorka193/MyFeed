@@ -6,36 +6,34 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../shared/store/store";
 import { toggleFavorite } from "@/features/favorites/model/favoritesSlice";
 import { Avatar } from "../Avatar/Avatar";
-import { ShareModal } from "../ShareModal/ShareModal";
 import { PostAuthorActions } from "../PostAuthorActions/PostAuthorActions";
-import { ModalConfirmDelete } from "../ModalConfirmDelete/ModalConfirmDelete";
+import { SharePostModal } from "@/features/sharePost/SharePostModal";
 
 type PostCardProps = {
   post: PostModel;
   actionsType?: "author" | "viewer";
   disabled?: boolean;
-  deleteHandler?: (id: string) => Promise<void>;
-  withFavorites?: boolean;
-  withShare?: boolean;
   onEdit?: (post: PostModel) => void;
   onOpen?: () => void;
+  onDeleteClick?: () => void; 
+  withShare?: boolean;      
+  withFavorites?: boolean; 
 };
 
 export const PostCard: React.FC<PostCardProps> = ({
   post,
   actionsType = "viewer",
   disabled,
-  deleteHandler,
-  withFavorites = true,
-  withShare = true,
   onEdit,
   onOpen,
+  onDeleteClick,
+  withShare = true,
+  withFavorites = true,
 }) => {
-  const { id, title, description, mediaUrl, author, createdAt } = post;
+  const { title, description, mediaUrl, author, createdAt, id } = post;
 
   const [expanded, setExpanded] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
-  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const dispatch = useAppDispatch();
   const favorites = useAppSelector((state) => state.favorites.items);
@@ -44,15 +42,13 @@ export const PostCard: React.FC<PostCardProps> = ({
   const isLong = description.length > 150;
   const postUrl = `${window.location.origin}/posts/${id}`;
 
-  const handleDelete = async () => {
-    if (!deleteHandler) return;
+  const handleCopyLink = async () => {
     try {
-      await deleteHandler(id);
-    } catch (err) {
-      console.error("Ошибка при удалении поста:", err);
-    } finally {
-      setConfirmOpen(false);
+      await navigator.clipboard.writeText(postUrl);
+    } catch {
+      console.error("Не удалось скопировать ссылку");
     }
+    setShareOpen(false);
   };
 
   return (
@@ -71,18 +67,14 @@ export const PostCard: React.FC<PostCardProps> = ({
           <PostAuthorActions
             id={id}
             disabled={disabled}
-            deleteHandler={() => setConfirmOpen(true)}
+            deleteHandler={onDeleteClick} 
             onShare={() => setShareOpen(true)}
             onEdit={() => onEdit?.(post)}
           />
         )}
       </div>
 
-      <h2
-        className={styles.postTitle}
-        onClick={onOpen}
-        style={{ cursor: "pointer" }}
-      >
+      <h2 className={styles.postTitle} onClick={onOpen} style={{ cursor: "pointer" }}>
         {title}
       </h2>
 
@@ -100,7 +92,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         {expanded || !isLong ? description : description.slice(0, 150) + "... "}
         {isLong && (
           <button
-            onClick={() => setExpanded((prev) => !prev)}
+            onClick={() => setExpanded(prev => !prev)}
             className={styles.readMoreInlineBtn}
           >
             {expanded ? "Свернуть" : "Читать больше"}
@@ -117,6 +109,7 @@ export const PostCard: React.FC<PostCardProps> = ({
             <SvgHeart />
           </button>
         )}
+
         {withShare && (
           <button className={styles.likeBtn} onClick={() => setShareOpen(true)}>
             <SvgShare />
@@ -124,19 +117,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         )}
       </div>
 
-      {withShare && (
-        <ShareModal
-          isOpen={shareOpen}
-          onClose={() => setShareOpen(false)}
-          postUrl={postUrl}
-        />
-      )}
-
-      <ModalConfirmDelete
-        open={confirmOpen}
-        onClose={() => setConfirmOpen(false)}
-        onDelete={handleDelete}
-      />
+      {withShare && <SharePostModal open={shareOpen} onClose={() => setShareOpen(false)} postUrl={postUrl} />}
     </div>
   );
 };

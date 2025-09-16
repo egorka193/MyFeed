@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setToken, setUser } from "@/features/auth/model/authSlice";
 import { useEditProfile } from "@/features/editProfile/api/__generated__/editProfile";
 import { useUserMeLazyQuery } from "@/shared/api/user/__generated__/userMe";
+import type { GenderType } from "@/shared/types/api-types";
 
 type Step1Values = {
   email: string;
@@ -88,11 +89,23 @@ export const RegistrationFormContent = () => {
         const meResult = await fetchUserMe();
   
         if (meResult.data?.userMe) {
-          dispatch(setUser(meResult.data.userMe));
+          const user = meResult.data.userMe;
+          dispatch(setUser({
+            ...user,
+            firstName: user.firstName ?? "",
+            lastName: user.lastName ?? "",
+            middleName: user.middleName ?? "",
+            birthDate: user.birthDate ?? "",
+            gender: (user.gender === "MALE" || user.gender === "FEMALE") 
+            ? (user.gender as GenderType) 
+            : undefined,
+            phone: user.phone ?? "",
+            country: user.country ?? "",
+            avatarUrl: user.avatarUrl ?? null,
+          }));
         }
   
         navigate("/main");
-        console.log("Свежий токен:", token);
       } else if (result.data?.userSignUp.problem) {
         setError("email", {
           type: "server",

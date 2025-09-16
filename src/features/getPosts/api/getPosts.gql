@@ -9,12 +9,15 @@ query GetPosts($input: FindPostsRequest!) {
       likesCount
       createdAt
       updatedAt
-      authorId 
+      authorId
       author {
         id
         firstName
         lastName
         avatarUrl
+        createdAt
+        updatedAt
+        email
       }
     }
     pageInfo {

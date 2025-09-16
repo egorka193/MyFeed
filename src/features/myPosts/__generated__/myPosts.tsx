@@ -22,6 +22,7 @@ export type MyPosts = {
       createdAt: string;
       updatedAt: string;
       deletedAt?: string | null;
+      authorId: string;
       author: {
         __typename: "UserModel";
         id: string;
@@ -29,9 +30,17 @@ export type MyPosts = {
         lastName?: string | null;
         middleName?: string | null;
         avatarUrl?: string | null;
+        email: string;
+        createdAt: string;
+        updatedAt: string;
       };
     }> | null;
-    pageInfo?: { __typename: "PageAfterCursorInfo"; count: number } | null;
+    pageInfo?: {
+      __typename: "PageAfterCursorInfo";
+      count: number;
+      perPage: number;
+      afterCursor?: string | null;
+    } | null;
   };
 };
 
@@ -124,6 +133,10 @@ export const MyPostsDocument = {
                       },
                       {
                         kind: "Field",
+                        name: { kind: "Name", value: "authorId" },
+                      },
+                      {
+                        kind: "Field",
                         name: { kind: "Name", value: "author" },
                         selectionSet: {
                           kind: "SelectionSet",
@@ -148,6 +161,18 @@ export const MyPostsDocument = {
                               kind: "Field",
                               name: { kind: "Name", value: "avatarUrl" },
                             },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "email" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "createdAt" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "updatedAt" },
+                            },
                           ],
                         },
                       },
@@ -161,6 +186,14 @@ export const MyPostsDocument = {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "count" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "perPage" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "afterCursor" },
+                      },
                     ],
                   },
                 },
