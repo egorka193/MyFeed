@@ -1,6 +1,7 @@
 .container {
   max-width: 740px;
   margin: 40px auto;
+  padding: 0 10px;
 }
 
 .postItem {
@@ -30,8 +31,12 @@
   text-align: center;
 }
 .addPostButton {
-  width: 170px;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 170px; /* для десктопа */
+  height: 40px;
 }
 
 .createForm {
@@ -59,4 +64,29 @@
   flex: 1;
   font-size: 16px;
   color: var(--TextTertiary);
+}
+.mobileIcon {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .addPostButton {
+    width: 40px;     
+    height: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .desktopText {
+    display: none;
+  }
+
+  .mobileIcon {
+    display: block;
+  }
+  .mobileIcon svg {
+    width: 20px;
+    height: 20px;
+  }
 }

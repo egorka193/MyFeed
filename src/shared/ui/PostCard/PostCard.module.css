@@ -10,7 +10,12 @@
 .postHeader {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 16px;
+  gap: 12px;
+}
+.postHeaderInfo {
+  display: flex;
   gap: 12px;
 }
 
@@ -45,6 +50,9 @@
   margin: 12px 0;
   color: var(--TextPrimary);
   cursor: pointer;
+  white-space: nowrap;        
+  overflow: hidden;           
+  text-overflow: ellipsis;
 }
 
 .postImage {
@@ -122,6 +130,3 @@
   fill: var(--IconActive, #F03E3E);  
   stroke: var(--IconActive, #F03E3E);
 }
-
-
-

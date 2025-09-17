@@ -12,6 +12,7 @@ import { Avatar } from '@/shared/ui/Avatar/Avatar';
 import { DeletePostModal } from '@/features/deletePost/DeletePostModal';
 import { MyPostsList } from '@/features/myPosts/ui/MyPostsList';
 import { usePaginationMyPosts } from '@/features/myPosts/hooks/usePaginationMyPosts';
+import { PlusIcon } from '@/shared/ui/icons/PlusIcon';
 
 export const MyPostsPage = () => {
   const [isCreating, setIsCreating] = useState(false);
@@ -71,7 +72,7 @@ export const MyPostsPage = () => {
           <SvgIllustration className={styles.illustration} />
           <p className={styles.emptyText}>У вас пока нет постов</p>
           <Button variant="primary" className={styles.addPostButton} onClick={handleCreatePostClick}>
-            Создать пост
+            <span className={styles.desktopText}>Создать пост</span>
           </Button>
         </div>
       )}
@@ -84,7 +85,8 @@ export const MyPostsPage = () => {
               Что у вас нового, {currentUser?.firstName}?
             </span>
             <Button variant="primary" className={styles.addPostButton} onClick={handleCreatePostClick}>
-              Создать пост
+              <span className={styles.desktopText}>Создать пост</span>
+              <span className={styles.mobileIcon}>+</span>
             </Button>
           </div>
 

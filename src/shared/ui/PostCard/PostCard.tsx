@@ -54,24 +54,28 @@ export const PostCard: React.FC<PostCardProps> = ({
   return (
     <div className={styles.postCard}>
       <div className={styles.postHeader}>
-        <Avatar url={author.avatarUrl ?? ""} />
-        <div className={styles.postAuthor}>
-          <span className={styles.postName}>
-            {author.firstName} {author.lastName}
-          </span>
-          <span className={styles.postDate}>
-            {new Date(createdAt).toLocaleDateString()}
-          </span>
+        <div className={styles.postHeaderInfo}>
+          <Avatar url={author.avatarUrl ?? ""} />
+          <div className={styles.postAuthor}>
+            <span className={styles.postName}>
+              {author.firstName} {author.lastName}
+            </span>
+            <span className={styles.postDate}>
+              {new Date(createdAt).toLocaleDateString()}
+            </span>
+          </div>
         </div>
-        {actionsType === "author" && (
-          <PostAuthorActions
-            id={id}
-            disabled={disabled}
-            deleteHandler={onDeleteClick} 
-            onShare={() => setShareOpen(true)}
-            onEdit={() => onEdit?.(post)}
-          />
-        )}
+        <div className={styles.postActionsWrapper}>
+          {actionsType === "author" && (
+            <PostAuthorActions
+              id={id}
+              disabled={disabled}
+              deleteHandler={onDeleteClick} 
+              onShare={() => setShareOpen(true)}
+              onEdit={() => onEdit?.(post)}
+            />
+          )}
+        </div>
       </div>
 
       <h2 className={styles.postTitle} onClick={onOpen} style={{ cursor: "pointer" }}>
