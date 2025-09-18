@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import { usePostCreate } from "@/features/createPost/api/__generated__/createPost";
-import { useMyPostDelete } from "@/features/myPosts/__generated__/myPosts"; 
+import { useMyPostDelete } from "@/features/myPosts/__generated__/myPosts";
 import { Input } from "@/shared/ui/Input/Input";
 import { Button } from "@/shared/ui/Button/Button";
 import { Dropzone } from "@/shared/ui/DropZone/DropZone";
@@ -14,16 +15,27 @@ type CreatePostFormProps = {
   onCancel: () => void;
 };
 
-export const CreatePostForm = ({ initialPost, onSuccess, onCancel }: CreatePostFormProps) => {
+export const CreatePostForm = ({
+  initialPost,
+  onSuccess,
+  onCancel,
+}: CreatePostFormProps) => {
   const [title, setTitle] = useState(initialPost?.title ?? "");
-  const [description, setDescription] = useState(initialPost?.description ?? "");
-  const [mediaUrl, setMediaUrl] = useState<string | null>(initialPost?.mediaUrl ?? null);
-  const [preview, setPreview] = useState<string | null>(initialPost?.mediaUrl ?? null);
+  const [description, setDescription] = useState(
+    initialPost?.description ?? "",
+  );
+  const [mediaUrl, setMediaUrl] = useState<string | null>(
+    initialPost?.mediaUrl ?? null,
+  );
+  const [preview, setPreview] = useState<string | null>(
+    initialPost?.mediaUrl ?? null,
+  );
   const [validationError, setValidationError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
 
-  const [createPost, { loading: creating, error: createError }] = usePostCreate();
+  const [createPost, { loading: creating, error: createError }] =
+    usePostCreate();
   const [deletePost] = useMyPostDelete();
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,17 +54,19 @@ export const CreatePostForm = ({ initialPost, onSuccess, onCancel }: CreatePostF
     try {
       setUploading(true);
       setUploadProgress(0);
-  
+
       const responseLink = await fileApi.getUploadLink(file.name, "POSTS");
       const link = responseLink.data;
-  
+
       await fileApi.uploadImage(link, file, (progressEvent) => {
         if (progressEvent.total) {
-          const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          const percent = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total,
+          );
           setUploadProgress(percent);
         }
       });
-  
+
       const uploadedUrl = link.split("?")[0];
       setMediaUrl(uploadedUrl);
       setPreview(URL.createObjectURL(file));
@@ -114,7 +128,7 @@ export const CreatePostForm = ({ initialPost, onSuccess, onCancel }: CreatePostF
           setPreview(null);
         }
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("ApolloError:", error);
     }
   };
@@ -132,7 +146,11 @@ export const CreatePostForm = ({ initialPost, onSuccess, onCancel }: CreatePostF
         required
       />
 
-      <Dropzone onFileSelect={handleFileUpload} preview={preview} uploading={uploading} />
+      <Dropzone
+        onFileSelect={handleFileUpload}
+        preview={preview}
+        uploading={uploading}
+      />
 
       <Input
         label="Описание"
@@ -145,10 +163,20 @@ export const CreatePostForm = ({ initialPost, onSuccess, onCancel }: CreatePostF
       />
 
       <div className={styles.createFormActions}>
-        <Button type="button" variant="secondary" onClick={handleCancel} className={styles.cancelButton}>
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={handleCancel}
+          className={styles.cancelButton}
+        >
           Отмена
         </Button>
-        <Button type="submit" variant="primary" loading={creating} className={styles.createPostButton}>
+        <Button
+          type="submit"
+          variant="primary"
+          loading={creating}
+          className={styles.createPostButton}
+        >
           {initialPost ? "Сохранить" : "Создать пост"}
         </Button>
       </div>

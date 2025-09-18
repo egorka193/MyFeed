@@ -1,5 +1,5 @@
 import styles from "./Avatar.module.css";
-import avatarImg from "@/shared/assets/icons/Avatar.svg"; 
+import avatarImg from "@/shared/assets/icons/Avatar.svg";
 
 type AvatarProps = {
   url?: string | null;

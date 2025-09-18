@@ -1,26 +1,27 @@
-import styles from './MyPostsPage.module.css';
-import { PostCard } from '@/shared/ui/PostCard/PostCard';
-import { useState, useRef, useCallback } from 'react';
-import SvgIllustration from '@/shared/ui/icons/Illustration';
-import { Button } from '@/shared/ui/Button/Button';
-import type { PostModel } from '@/shared/types/api-types';
-import { CreatePostForm } from '@/features/createPost/ui/CreatePostForm';
-import { PageContainer } from '@/shared/ui/PageContainer/PageContainer';
-import { Modal } from '@/shared/ui/Modal/Modal';
-import { useAppSelector } from '@/shared/store/store';
-import { Avatar } from '@/shared/ui/Avatar/Avatar';
-import { DeletePostModal } from '@/features/deletePost/DeletePostModal';
-import { MyPostsList } from '@/features/myPosts/ui/MyPostsList';
-import { usePaginationMyPosts } from '@/features/myPosts/hooks/usePaginationMyPosts';
-import { PlusIcon } from '@/shared/ui/icons/PlusIcon';
+import styles from "./MyPostsPage.module.css";
+import { PostCard } from "@/shared/ui/PostCard/PostCard";
+import { useState, useRef, useCallback } from "react";
+import SvgIllustration from "@/shared/ui/icons/Illustration";
+import { Button } from "@/shared/ui/Button/Button";
+import type { PostModel } from "@/shared/types/api-types";
+import { CreatePostForm } from "@/features/createPost/ui/CreatePostForm";
+import { PageContainer } from "@/shared/ui/PageContainer/PageContainer";
+import { Modal } from "@/shared/ui/Modal/Modal";
+import { useAppSelector } from "@/shared/store/store";
+import { Avatar } from "@/shared/ui/Avatar/Avatar";
+import { DeletePostModal } from "@/features/deletePost/DeletePostModal";
+import { MyPostsList } from "@/features/myPosts/ui/MyPostsList";
+import { usePaginationMyPosts } from "@/features/myPosts/hooks/usePaginationMyPosts";
 
 export const MyPostsPage = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [editingPost, setEditingPost] = useState<PostModel | null>(null);
   const [selectedPost, setSelectedPost] = useState<PostModel | null>(null);
-  const [deleteConfirmPost, setDeleteConfirmPost] = useState<PostModel | null>(null);
+  const [deleteConfirmPost, setDeleteConfirmPost] = useState<PostModel | null>(
+    null,
+  );
 
-  const currentUser = useAppSelector(state => state.auth.user);
+  const currentUser = useAppSelector((state) => state.auth.user);
 
   const { posts, isLoading, hasMore, getMorePosts } = usePaginationMyPosts();
   const observer = useRef<IntersectionObserver | null>(null);
@@ -30,7 +31,7 @@ export const MyPostsPage = () => {
       if (isLoading || !hasMore) return;
       if (observer.current) observer.current.disconnect();
 
-      observer.current = new IntersectionObserver(entries => {
+      observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
           getMorePosts();
         }
@@ -38,7 +39,7 @@ export const MyPostsPage = () => {
 
       if (node) observer.current.observe(node);
     },
-    [isLoading, hasMore, getMorePosts]
+    [isLoading, hasMore, getMorePosts],
   );
 
   const handleCreatePostClick = () => setIsCreating(true);
@@ -52,7 +53,10 @@ export const MyPostsPage = () => {
         <div className={styles.createForm}>
           <CreatePostForm
             initialPost={editingPost ?? undefined}
-            onCancel={() => { setIsCreating(false); setEditingPost(null); }}
+            onCancel={() => {
+              setIsCreating(false);
+              setEditingPost(null);
+            }}
             onSuccess={() => {
               setEditingPost(null);
               setIsCreating(false);
@@ -71,7 +75,11 @@ export const MyPostsPage = () => {
         <div className={styles.emptyState}>
           <SvgIllustration className={styles.illustration} />
           <p className={styles.emptyText}>У вас пока нет постов</p>
-          <Button variant="primary" className={styles.addPostButton} onClick={handleCreatePostClick}>
+          <Button
+            variant="primary"
+            className={styles.addPostButton}
+            onClick={handleCreatePostClick}
+          >
             <span className={styles.desktopText}>Создать пост</span>
           </Button>
         </div>
@@ -84,7 +92,11 @@ export const MyPostsPage = () => {
             <span className={styles.newPostText}>
               Что у вас нового, {currentUser?.firstName}?
             </span>
-            <Button variant="primary" className={styles.addPostButton} onClick={handleCreatePostClick}>
+            <Button
+              variant="primary"
+              className={styles.addPostButton}
+              onClick={handleCreatePostClick}
+            >
               <span className={styles.desktopText}>Создать пост</span>
               <span className={styles.mobileIcon}>+</span>
             </Button>

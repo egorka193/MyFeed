@@ -50,7 +50,9 @@ export const Header = () => {
           </div>
         </NavLink>
 
-        <nav className={`${styles.nav} ${mobileMenuOpen ? styles.mobileOpen : ""}`}>
+        <nav
+          className={`${styles.nav} ${mobileMenuOpen ? styles.mobileOpen : ""}`}
+        >
           <NavLink
             to="/main"
             className={({ isActive }) =>

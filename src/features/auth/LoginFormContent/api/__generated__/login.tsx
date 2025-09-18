@@ -102,6 +102,7 @@ export type SignInMutationFn = Apollo.MutationFunction<SignIn, SignInVariables>;
  *   },
  * });
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export function useSignIn(
   baseOptions?: Apollo.MutationHookOptions<SignIn, SignInVariables>,
 ) {

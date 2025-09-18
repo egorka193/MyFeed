@@ -3,7 +3,7 @@ import { Input } from "@/shared/ui/Input/Input";
 import { Button } from "@/shared/ui/Button/Button";
 import { useState } from "react";
 import styles from "./RegistrationFormContent.module.css";
-import { useSignUp } from "./api/__generated__/registration"; 
+import { useSignUp } from "./api/__generated__/registration";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setToken, setUser } from "@/features/auth/model/authSlice";
@@ -26,13 +26,13 @@ type Step2Values = {
 type RegistrationFormValues = Step1Values & Step2Values;
 
 export const RegistrationFormContent = () => {
-  const [showPass, setShowPass] = useState(false);
-  const [showRepeatPass, setShowRepeatPass] = useState(false);
+  const [showPass] = useState(false);
+  const [showRepeatPass] = useState(false);
   const [step, setStep] = useState(1);
 
   const [signUp] = useSignUp();
   const [editProfile] = useEditProfile();
-  const [fetchUserMe] = useUserMeLazyQuery();;
+  const [fetchUserMe] = useUserMeLazyQuery();
 
   const navigate = useNavigate();
 
@@ -44,7 +44,7 @@ export const RegistrationFormContent = () => {
     watch,
     trigger,
     setError,
-    formState: { errors, isSubmitted }
+    formState: { errors, isSubmitted },
   } = useForm<RegistrationFormValues>({
     defaultValues: {
       email: "",
@@ -52,8 +52,8 @@ export const RegistrationFormContent = () => {
       repeatPassword: "",
       firstName: "",
       lastName: "",
-      middleName: ""
-    }
+      middleName: "",
+    },
   });
 
   const passwordValue = watch("password");
@@ -69,12 +69,12 @@ export const RegistrationFormContent = () => {
           },
         },
       });
-  
+
       const token = result.data?.userSignUp.token ?? "";
-  
+
       if (token) {
         dispatch(setToken(token));
-  
+
         await editProfile({
           variables: {
             input: {
@@ -85,26 +85,29 @@ export const RegistrationFormContent = () => {
             },
           },
         });
-  
+
         const meResult = await fetchUserMe();
-  
+
         if (meResult.data?.userMe) {
           const user = meResult.data.userMe;
-          dispatch(setUser({
-            ...user,
-            firstName: user.firstName ?? "",
-            lastName: user.lastName ?? "",
-            middleName: user.middleName ?? "",
-            birthDate: user.birthDate ?? "",
-            gender: (user.gender === "MALE" || user.gender === "FEMALE") 
-            ? (user.gender as GenderType) 
-            : undefined,
-            phone: user.phone ?? "",
-            country: user.country ?? "",
-            avatarUrl: user.avatarUrl ?? null,
-          }));
+          dispatch(
+            setUser({
+              ...user,
+              firstName: user.firstName ?? "",
+              lastName: user.lastName ?? "",
+              middleName: user.middleName ?? "",
+              birthDate: user.birthDate ?? "",
+              gender:
+                user.gender === "MALE" || user.gender === "FEMALE"
+                  ? (user.gender as GenderType)
+                  : undefined,
+              phone: user.phone ?? "",
+              country: user.country ?? "",
+              avatarUrl: user.avatarUrl ?? null,
+            }),
+          );
         }
-  
+
         navigate("/main");
       } else if (result.data?.userSignUp.problem) {
         setError("email", {
@@ -116,7 +119,6 @@ export const RegistrationFormContent = () => {
       console.error("Ошибка регистрации:", err);
     }
   };
-  
 
   const handleNextStep = async () => {
     const isValid = await trigger(["email", "password", "repeatPassword"]);
@@ -141,7 +143,9 @@ export const RegistrationFormContent = () => {
             label="Email"
             type="email"
             {...register("email", { required: "Введите email" })}
-            status={isSubmitted ? (errors.email ? "error" : "success") : undefined}
+            status={
+              isSubmitted ? (errors.email ? "error" : "success") : undefined
+            }
             error={errors.email?.message}
           />
 
@@ -150,9 +154,11 @@ export const RegistrationFormContent = () => {
             type={showPass ? "text" : "password"}
             {...register("password", {
               required: "Введите пароль",
-              minLength: { value: 6, message: "Минимум 6 символов" }
+              minLength: { value: 6, message: "Минимум 6 символов" },
             })}
-            status={isSubmitted ? (errors.password ? "error" : "success") : undefined}
+            status={
+              isSubmitted ? (errors.password ? "error" : "success") : undefined
+            }
             error={errors.password?.message}
           />
 
@@ -162,10 +168,14 @@ export const RegistrationFormContent = () => {
             {...register("repeatPassword", {
               required: "Повторите пароль",
               validate: (value) =>
-                value === passwordValue || "Пароли не совпадают"
+                value === passwordValue || "Пароли не совпадают",
             })}
             status={
-              isSubmitted ? (errors.repeatPassword ? "error" : "success") : undefined
+              isSubmitted
+                ? errors.repeatPassword
+                  ? "error"
+                  : "success"
+                : undefined
             }
             error={errors.repeatPassword?.message}
           />
@@ -185,21 +195,22 @@ export const RegistrationFormContent = () => {
           <Input
             label="Имя"
             {...register("firstName", { required: "Введите имя" })}
-            status={isSubmitted ? (errors.firstName ? "error" : "success") : undefined}
+            status={
+              isSubmitted ? (errors.firstName ? "error" : "success") : undefined
+            }
             error={errors.firstName?.message}
           />
 
           <Input
             label="Фамилия"
             {...register("lastName", { required: "Введите фамилию" })}
-            status={isSubmitted ? (errors.lastName ? "error" : "success") : undefined}
+            status={
+              isSubmitted ? (errors.lastName ? "error" : "success") : undefined
+            }
             error={errors.lastName?.message}
           />
 
-          <Input
-            label="Отчество"
-            {...register("middleName")}
-          />
+          <Input label="Отчество" {...register("middleName")} />
 
           <Button type="submit" variant="primary">
             Создать аккаунт

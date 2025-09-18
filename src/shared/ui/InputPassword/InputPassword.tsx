@@ -1,7 +1,7 @@
 import { forwardRef, useState } from "react";
 import { Input, type InputProps } from "@/shared/ui/Input/Input";
 
-interface InputPasswordProps extends Omit<InputProps, "type"> {}
+type InputPasswordProps = Omit<InputProps, "type">;
 
 export const InputPassword = forwardRef<HTMLInputElement, InputPasswordProps>(
   (props, ref) => {
@@ -13,10 +13,10 @@ export const InputPassword = forwardRef<HTMLInputElement, InputPasswordProps>(
         ref={ref}
         showPasswordToggle
         isPasswordVisible={isPasswordVisible}
-        onTogglePassword={() => setIsPasswordVisible(prev => !prev)}
+        onTogglePassword={() => setIsPasswordVisible((prev) => !prev)}
       />
     );
-  }
+  },
 );
 
 InputPassword.displayName = "InputPassword";

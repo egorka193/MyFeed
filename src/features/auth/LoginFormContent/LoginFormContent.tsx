@@ -23,7 +23,6 @@ const loginSchema = yup.object({
     .required("Введите пароль"),
 });
 
-
 type LoginFormValues = {
   email: string;
   password: string;
@@ -31,23 +30,22 @@ type LoginFormValues = {
 
 export const LoginFormContent = () => {
   const [signIn, { data, loading }] = useSignIn();
-  const [fetchUserMe] = useUserMeLazyQuery(); 
-  
-  
+  const [fetchUserMe] = useUserMeLazyQuery();
+
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors }
+    formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: yupResolver(loginSchema),
     defaultValues: {
       email: "",
-      password: ""
-    }
+      password: "",
+    },
   });
 
   const onSubmit = async (formData: LoginFormValues) => {
@@ -75,26 +73,28 @@ export const LoginFormContent = () => {
       const token = result.data?.userSignIn.token ?? "";
 
       if (token) {
-
         dispatch(setToken(token));
 
         try {
           const meResult = await fetchUserMe();
           if (meResult.data?.userMe) {
             const user = meResult.data.userMe;
-            dispatch(setUser({
-              ...user,
-              firstName: user.firstName ?? "",
-              lastName: user.lastName ?? "",
-              middleName: user.middleName ?? "",
-              birthDate: user.birthDate ?? "",
-              gender: (user.gender === "MALE" || user.gender === "FEMALE") 
-              ? (user.gender as GenderType) 
-              : undefined,
-              phone: user.phone ?? "",
-              country: user.country ?? "",
-              avatarUrl: user.avatarUrl ?? null,
-            }));
+            dispatch(
+              setUser({
+                ...user,
+                firstName: user.firstName ?? "",
+                lastName: user.lastName ?? "",
+                middleName: user.middleName ?? "",
+                birthDate: user.birthDate ?? "",
+                gender:
+                  user.gender === "MALE" || user.gender === "FEMALE"
+                    ? (user.gender as GenderType)
+                    : undefined,
+                phone: user.phone ?? "",
+                country: user.country ?? "",
+                avatarUrl: user.avatarUrl ?? null,
+              }),
+            );
           }
         } catch (err) {
           console.error("Ошибка при загрузке userMe:", err);
@@ -116,35 +116,39 @@ export const LoginFormContent = () => {
       <Input
         label="Email"
         type="email"
-        {...register("email")} 
-        status={errors.email ? "error" : data?.userSignIn?.token ? "success" : undefined}
+        {...register("email")}
+        status={
+          errors.email
+            ? "error"
+            : data?.userSignIn?.token
+              ? "success"
+              : undefined
+        }
         error={errors.email?.message}
         disabled={loading}
       />
 
       <InputPassword
         label="Пароль"
-        {...register("password")} 
+        {...register("password")}
         status={errors.password ? "error" : undefined}
         error={errors.password?.message}
         disabled={loading}
       />
 
       {errors.root && (
-        <div className={styles.loginForm__error}>
-          {errors.root.message}
-        </div>
+        <div className={styles.loginForm__error}>{errors.root.message}</div>
       )}
 
-      <Button 
-        type="submit" 
-        variant="primary" 
+      <Button
+        type="submit"
+        variant="primary"
         className={styles.loginForm__button}
         loading={loading}
         disabled={loading}
       >
         Войти
-      </Button> 
+      </Button>
     </form>
   );
 };

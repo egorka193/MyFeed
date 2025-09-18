@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useRef, useState } from "react";
 import { usePaginationPosts } from "@/features/getPosts/hooks/usePaginationPosts";
 import { PostCard } from "@/shared/ui/PostCard/PostCard";
@@ -30,7 +31,7 @@ export const MainPage: React.FC = () => {
 
       if (node) observer.current.observe(node);
     },
-    [isLoading, afterCursor, getMorePosts]
+    [isLoading, afterCursor, getMorePosts],
   );
 
   const handleModalClose = () => setSelectedPost(null);
@@ -56,7 +57,11 @@ export const MainPage: React.FC = () => {
 
       {selectedPost && (
         <Modal onClose={handleModalClose}>
-          <PostCard post={selectedPost} withShare={false} withFavorites={false} />
+          <PostCard
+            post={selectedPost}
+            withShare={false}
+            withFavorites={false}
+          />
         </Modal>
       )}
     </PageContainer>

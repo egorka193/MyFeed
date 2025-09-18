@@ -11,7 +11,10 @@
     "svgr": "svgr --icon --ext tsx --out-dir src/shared/ui/icons src/assets/icons",
     "schema:download": "graphql-codegen --config codegen.yml",
     "codegen": "graphql-codegen --config codegen.yml",
-    "api:generate": "graphql-codegen -r dotenv/config --config codegen.yml"
+    "api:generate": "graphql-codegen -r dotenv/config --config codegen.yml",
+    "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
+    "format": "prettier --write"
   },
   "dependencies": {
     "@apollo/client": "^3.10.4",
@@ -20,7 +23,6 @@
     "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.11.0",
     "lodash.unionby": "^4.8.0",
-    "prettier": "^3.6.2",
     "react": "^19.1.1",
     "react-datepicker": "^8.7.0",
     "react-dom": "^19.1.1",
@@ -49,11 +51,15 @@
     "@types/react-input-mask": "^3.0.6",
     "@vitejs/plugin-react": "^5.0.0",
     "dotenv": "^17.2.1",
-    "eslint": "^9.33.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
     "graphql": "^16.11.0",
+    "prettier": "^3.6.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2"

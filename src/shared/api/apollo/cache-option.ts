@@ -1,5 +1,5 @@
-import { type InMemoryCacheConfig} from '@apollo/client';
-import {cursorPagination} from './fields-policies';
+import { type InMemoryCacheConfig } from "@apollo/client";
+import { cursorPagination } from "./fields-policies";
 const defaultCursorPagination = cursorPagination();
 
 export const cacheOption: InMemoryCacheConfig = {

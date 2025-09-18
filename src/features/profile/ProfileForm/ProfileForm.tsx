@@ -6,7 +6,6 @@ import * as yup from "yup";
 import DatePicker from "react-datepicker";
 import { RadioGroup } from "@/shared/ui/Checkbox/RadioGroup";
 import { DateInput } from "@/shared/ui/DateInput/DateInput";
-import { ArrowLeft, ArrowRight } from "@/shared/ui/icons";
 import { useEditProfile } from "@/features/editProfile/api/__generated__/editProfile";
 import { useAppSelector, useAppDispatch } from "@/shared/store/store";
 import { setUser } from "@/features/auth/model/authSlice";
@@ -31,15 +30,20 @@ type ProfileFormValues = yup.InferType<typeof schema>;
 
 interface ProfileFormProps {
   onSaved?: () => void;
-  onDirtyChange?: (dirty: boolean) => void; // коллбек для передачи флага в родителя
+  onDirtyChange?: (dirty: boolean) => void;
 }
 
 export const ProfileForm = ({ onSaved, onDirtyChange }: ProfileFormProps) => {
-  const user = useAppSelector(state => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const [editProfile, { loading: editLoading }] = useEditProfile();
 
-  const { register, handleSubmit, control, formState: { errors, isDirty, isSubmitting } } = useForm<ProfileFormValues>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isDirty, isSubmitting },
+  } = useForm<ProfileFormValues>({
     resolver: yupResolver(schema),
     defaultValues: {
       firstName: user?.firstName ?? "",
@@ -50,7 +54,7 @@ export const ProfileForm = ({ onSaved, onDirtyChange }: ProfileFormProps) => {
       email: user?.email ?? "",
       phone: user?.phone ?? "",
       country: user?.country ?? "",
-    }
+    },
   });
 
   useEffect(() => {
@@ -74,7 +78,7 @@ export const ProfileForm = ({ onSaved, onDirtyChange }: ProfileFormProps) => {
           gender: values.gender as GenderType,
           phone: values.phone,
           country: values.country,
-        }).filter(([_, v]) => v !== undefined && v !== "")
+        }).filter(([v]) => v !== undefined && v !== ""),
       ) as EditProfileRequest;
 
       const response = await editProfile({ variables: { input: payload } });
@@ -100,39 +104,51 @@ export const ProfileForm = ({ onSaved, onDirtyChange }: ProfileFormProps) => {
       }
 
       onSaved?.();
-    } catch (err: any) {
+    } catch (err) {
       console.error("Ошибка сохранения профиля:", err);
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <Input {...register("firstName")} label="Имя" error={errors.firstName?.message} />
-      <Input {...register("lastName")} label="Фамилия" error={errors.lastName?.message} />
-      <Input {...register("middleName")} label="Отчество" error={errors.middleName?.message} />
+      <Input
+        {...register("firstName")}
+        label="Имя"
+        error={errors.firstName?.message}
+      />
+      <Input
+        {...register("lastName")}
+        label="Фамилия"
+        error={errors.lastName?.message}
+      />
+      <Input
+        {...register("middleName")}
+        label="Отчество"
+        error={errors.middleName?.message}
+      />
 
       <Controller
-            name="birthDate"
-            control={control}
-            render={({ field }) => (
-              <DatePicker
-                selected={field.value ? new Date(field.value) : null}
-                onChange={(date) =>
-                  field.onChange(date?.toISOString().split("T")[0])
-                }
-                dateFormat="dd.MM.yyyy"
-                customInput={
-                  <DateInput
-                    label="Дата рождения"
-                    error={errors.birthDate?.message}
-                  />
-                }
-                showYearDropdown
-                scrollableYearDropdown
-                yearDropdownItemNumber={100}
+        name="birthDate"
+        control={control}
+        render={({ field }) => (
+          <DatePicker
+            selected={field.value ? new Date(field.value) : null}
+            onChange={(date) =>
+              field.onChange(date?.toISOString().split("T")[0])
+            }
+            dateFormat="dd.MM.yyyy"
+            customInput={
+              <DateInput
+                label="Дата рождения"
+                error={errors.birthDate?.message}
               />
-            )}
+            }
+            showYearDropdown
+            scrollableYearDropdown
+            yearDropdownItemNumber={100}
           />
+        )}
+      />
 
       <RadioGroup
         name="gender"
@@ -144,15 +160,38 @@ export const ProfileForm = ({ onSaved, onDirtyChange }: ProfileFormProps) => {
         ]}
       />
 
-      <Input {...register("email")} label="Email" error={errors.email?.message} />
-      <Input {...register("phone")} label="Телефон" error={errors.phone?.message} placeholder="+7(999)-999-99-99"/>
-      <Input {...register("country")} label="Страна" error={errors.country?.message} />
+      <Input
+        {...register("email")}
+        label="Email"
+        error={errors.email?.message}
+      />
+      <Input
+        {...register("phone")}
+        label="Телефон"
+        error={errors.phone?.message}
+        placeholder="+7(999)-999-99-99"
+      />
+      <Input
+        {...register("country")}
+        label="Страна"
+        error={errors.country?.message}
+      />
 
       <div className={styles.buttons}>
-        <Button type="button" className={styles.cancelBtn} loading={editLoading || isSubmitting} disabled={editLoading || isSubmitting}>
+        <Button
+          type="button"
+          className={styles.cancelBtn}
+          loading={editLoading || isSubmitting}
+          disabled={editLoading || isSubmitting}
+        >
           Отменить
         </Button>
-        <Button type="submit" className={styles.saveBtn} loading={editLoading || isSubmitting} disabled={editLoading || isSubmitting || !isDirty}>
+        <Button
+          type="submit"
+          className={styles.saveBtn}
+          loading={editLoading || isSubmitting}
+          disabled={editLoading || isSubmitting || !isDirty}
+        >
           Сохранить
         </Button>
       </div>

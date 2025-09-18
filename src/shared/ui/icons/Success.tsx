@@ -12,10 +12,10 @@ const SvgSuccess = (props: React.SVGProps<SVGSVGElement>) => (
 
     <path
       stroke="white"
-      strokeWidth="3"
+      strokeWidth="2.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      d="M7 12l4 4 8-9"
+      d="M8 12.5l3 3 5-6"
     />
   </svg>
 );

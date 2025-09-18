@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import styles from "./ConfirmModal.module.css";
 import SvgClose from "../icons/Close";
@@ -17,7 +17,8 @@ interface ConfirmModalProps {
   message?: string;
   primaryAction: ActionButton;
   secondaryAction?: ActionButton;
-  children?: ReactNode; 
+  children?: ReactNode;
+  variant?: "center" | "bottom"; // можно указать вручную, иначе авто
 }
 
 export const ConfirmModal = ({
@@ -28,7 +29,17 @@ export const ConfirmModal = ({
   primaryAction,
   secondaryAction,
   children,
+  variant,
 }: ConfirmModalProps) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
     const originalStyle = window.getComputedStyle(document.body).overflow;
@@ -40,9 +51,16 @@ export const ConfirmModal = ({
 
   if (!open) return null;
 
+  const modalVariant = variant ?? (isMobile ? "bottom" : "center");
+
   return ReactDOM.createPortal(
     <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={`${styles.modal} ${
+          modalVariant === "bottom" ? styles.bottom : ""
+        }`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className={styles.closeBtn} onClick={onClose}>
           <SvgClose />
         </button>
@@ -57,6 +75,7 @@ export const ConfirmModal = ({
             <button
               className={`${styles.actionBtn} ${styles.secondary}`}
               onClick={secondaryAction.onClick}
+              disabled={secondaryAction.disabled}
             >
               {secondaryAction.label}
             </button>
@@ -65,6 +84,7 @@ export const ConfirmModal = ({
             <button
               className={`${styles.actionBtn} ${styles.primary}`}
               onClick={primaryAction.onClick}
+              disabled={primaryAction.disabled}
             >
               {primaryAction.label}
             </button>
@@ -72,6 +92,6 @@ export const ConfirmModal = ({
         </div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };

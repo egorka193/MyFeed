@@ -20,7 +20,6 @@ export const usePaginationPosts = (filterType: PostFilterType) => {
         },
       },
     });
-
   }, [getPaginatedPosts, filterType]);
 
   useEffect(() => {
@@ -31,7 +30,7 @@ export const usePaginationPosts = (filterType: PostFilterType) => {
     if (!afterCursor) {
       return;
     }
-  
+
     await fetchMore({
       variables: { input: { limit: 10, afterCursor, type: filterType } },
     });
