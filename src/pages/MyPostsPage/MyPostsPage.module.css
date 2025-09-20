@@ -35,7 +35,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 170px; /* для десктопа */
+  width: 170px; 
   height: 40px;
 }
 
@@ -52,12 +52,18 @@
 .newPostBox {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   gap: 12px;
   padding: 12px;
   border-radius: 12px;
   margin-bottom: 16px;
   background-color: var(--BgPrimary);
+}
+.newPostBoxLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .newPostText {

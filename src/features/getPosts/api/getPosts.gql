@@ -27,3 +27,27 @@ query GetPosts($input: FindPostsRequest!) {
     }
   }
 }
+
+
+query GetPostById($input: PostIdRequest!) {
+  post(input: $input) {
+    id
+    title
+    description
+    mediaUrl
+    createdAt
+    updatedAt
+    authorId
+    isLiked
+    likesCount
+    author {
+      id
+      firstName
+      lastName
+      avatarUrl
+      createdAt
+      updatedAt
+      email
+    }
+  }
+}

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { usePostCreate } from "@/features/createPost/api/__generated__/createPost";
 import { useMyPostDelete } from "@/features/myPosts/__generated__/myPosts";
 import { Input } from "@/shared/ui/Input/Input";
@@ -72,56 +72,48 @@ export const CreatePostForm = ({
       setPreview(URL.createObjectURL(file));
     } finally {
       setUploading(false);
-      setTimeout(() => setUploadProgress(0), 1000);
     }
   };
+
+  const isFormValid = useMemo(() => {
+    return (
+      title.trim().length > 0 && description.trim().length >= 40 && !uploading
+    );
+  }, [title, description, uploading]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setValidationError(null);
 
+    if (!isFormValid) {
+      setValidationError("Пожалуйста, заполните все поля корректно.");
+      return;
+    }
+
     try {
       if (initialPost) {
         await deletePost({ variables: { input: { id: initialPost.id } } });
+      }
 
-        const response = await createPost({
-          variables: {
-            input: {
-              title,
-              description,
-              mediaUrl: mediaUrl ?? "",
-            },
+      const response = await createPost({
+        variables: {
+          input: {
+            title,
+            description,
+            mediaUrl: mediaUrl ?? "",
           },
-        });
+        },
+      });
 
-        if (response.data?.postCreate) {
-          const newPost: PostModel = {
-            ...response.data.postCreate,
-            authorId: response.data.postCreate.author.id,
-            deletedAt: null,
-            updatedAt: response.data.postCreate.createdAt,
-          };
-          onSuccess(newPost);
-        }
-      } else {
-        const response = await createPost({
-          variables: {
-            input: {
-              title,
-              description,
-              mediaUrl: mediaUrl ?? "",
-            },
-          },
-        });
-
-        if (response.data?.postCreate) {
-          const newPost: PostModel = {
-            ...response.data.postCreate,
-            authorId: response.data.postCreate.author.id,
-            deletedAt: null,
-            updatedAt: response.data.postCreate.createdAt,
-          };
-          onSuccess(newPost);
+      if (response.data?.postCreate) {
+        const newPost: PostModel = {
+          ...response.data.postCreate,
+          authorId: response.data.postCreate.author.id,
+          deletedAt: null,
+          updatedAt: response.data.postCreate.createdAt,
+        };
+        onSuccess(newPost);
+        if (!initialPost) {
           setTitle("");
           setDescription("");
           setMediaUrl(null);
@@ -130,6 +122,7 @@ export const CreatePostForm = ({
       }
     } catch (error) {
       console.error("ApolloError:", error);
+      setValidationError("Ошибка при отправке данных.");
     }
   };
 
@@ -175,15 +168,14 @@ export const CreatePostForm = ({
           type="submit"
           variant="primary"
           loading={creating}
+          disabled={!isFormValid}
           className={styles.createPostButton}
         >
           {initialPost ? "Сохранить" : "Создать пост"}
         </Button>
       </div>
 
-      {validationError && (
-        <p className={styles.errorText}>Ошибка: {validationError}</p>
-      )}
+      {validationError && <p className={styles.errorText}>{validationError}</p>}
 
       {!validationError && createError && (
         <p className={styles.errorText}>Ошибка: {createError.message}</p>

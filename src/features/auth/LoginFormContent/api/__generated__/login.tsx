@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import type * as Types from "../../../../../shared/types/api-types";
 
 import type { DocumentNode } from "graphql";
@@ -102,7 +103,6 @@ export type SignInMutationFn = Apollo.MutationFunction<SignIn, SignInVariables>;
  *   },
  * });
  */
-// eslint-disable-next-line react-refresh/only-export-components
 export function useSignIn(
   baseOptions?: Apollo.MutationHookOptions<SignIn, SignInVariables>,
 ) {

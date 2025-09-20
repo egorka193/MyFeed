@@ -239,6 +239,7 @@ export function useMyPostsLazyQuery(
     options,
   );
 }
+// eslint-disable-next-line react-refresh/only-export-components
 export function useMyPostsSuspenseQuery(
   baseOptions?:
     | Apollo.SkipToken

@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { type FC } from "react";
 import { ConfirmModal } from "@/shared/ui/ConfirmModal/ConfirmModal";
 import { useMyPostDelete } from "@/features/myPosts/__generated__/myPosts";
 import type { PostModel } from "@/shared/types/api-types";
@@ -17,41 +17,33 @@ export const DeletePostModal: FC<DeletePostModalProps> = ({
   post,
   onDeleted,
 }) => {
-  const [deletePost, { loading }] = useMyPostDelete();
-  const [error, setError] = useState<string | null>(null);
   const { toastSuccess, toastError } = useToaster();
 
-  const handleDelete = async () => {
-    try {
-      const { data } = await deletePost({
-        variables: { input: { id: post.id } },
-      });
-
+  const [deletePost, { loading }] = useMyPostDelete({
+    onCompleted: (data) => {
       if (data?.postDelete?.ok) {
-        toastSuccess("Пост удален");
+        toastSuccess("Пост удалён");
         onDeleted?.(post.id);
-        handleClose();
+        onClose();
       } else {
-        setError("Не удалось удалить пост");
         toastError("Не удалось удалить пост");
       }
-    } catch {
-      setError("Ошибка сервера");
+    },
+    onError: () => {
       toastError("Ошибка сервера");
-    }
-  };
+    },
+  });
 
-  const handleClose = () => {
-    setError(null);
-    onClose();
+  const handleDelete = () => {
+    deletePost({ variables: { input: { id: post.id } } });
   };
 
   return (
     <ConfirmModal
       open={open}
-      onClose={handleClose}
+      onClose={onClose}
       title="Удалить эту запись?"
-      message={error ?? "После удаления запись нельзя будет восстановить."}
+      message="После удаления запись нельзя будет восстановить."
       primaryAction={{
         label: loading ? "Удаляю..." : "Удалить",
         onClick: handleDelete,
@@ -60,7 +52,7 @@ export const DeletePostModal: FC<DeletePostModalProps> = ({
       }}
       secondaryAction={{
         label: "Отменить",
-        onClick: handleClose,
+        onClick: onClose,
         variant: "secondary",
       }}
     />
