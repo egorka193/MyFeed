@@ -9,14 +9,21 @@ interface AvatarDropdownProps {
   onDelete: () => void;
 }
 
-export const AvatarDropdown = ({ avatarSrc, onUpload, onDelete }: AvatarDropdownProps) => {
+export const AvatarDropdown = ({
+  avatarSrc,
+  onUpload,
+  onDelete,
+}: AvatarDropdownProps) => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setOpen(false);
       }
     };
@@ -35,8 +42,15 @@ export const AvatarDropdown = ({ avatarSrc, onUpload, onDelete }: AvatarDropdown
 
   return (
     <div className={styles.avatarWrapper} ref={dropdownRef}>
-      <img src={avatarSrc ?? avatarImg} alt="Аватар" className={styles.avatar} />
-      <span className={styles.avatarEditIcon} onClick={() => setOpen(prev => !prev)}>
+      <img
+        src={avatarSrc ?? avatarImg}
+        alt="Аватар"
+        className={styles.avatar}
+      />
+      <span
+        className={styles.avatarEditIcon}
+        onClick={() => setOpen((prev) => !prev)}
+      >
         <SvgEditSmall width={36} height={36} style={{ color: "#EE683E" }} />
       </span>
 
@@ -45,7 +59,7 @@ export const AvatarDropdown = ({ avatarSrc, onUpload, onDelete }: AvatarDropdown
           <button
             className={styles.dropdownItem}
             onClick={() => {
-              fileInputRef.current?.click(); 
+              fileInputRef.current?.click();
               setOpen(false);
             }}
           >

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import type * as Types from "../../../../shared/types/api-types";
 
 import type { DocumentNode } from "graphql";
@@ -39,6 +40,36 @@ export type GetPosts = {
       count: number;
       perPage: number;
     } | null;
+  };
+};
+
+export type GetPostByIdVariables = Types.Exact<{
+  input: Types.PostIdRequest;
+}>;
+
+export type GetPostById = {
+  __typename: "Query";
+  post: {
+    __typename: "PostModel";
+    id: string;
+    title: string;
+    description: string;
+    mediaUrl: string;
+    createdAt: string;
+    updatedAt: string;
+    authorId: string;
+    isLiked: boolean;
+    likesCount: number;
+    author: {
+      __typename: "UserModel";
+      id: string;
+      firstName?: string | null;
+      lastName?: string | null;
+      avatarUrl?: string | null;
+      createdAt: string;
+      updatedAt: string;
+      email: string;
+    };
   };
 };
 
@@ -246,4 +277,155 @@ export type GetPostsSuspenseQueryHookResult = ReturnType<
 export type GetPostsQueryResult = Apollo.QueryResult<
   GetPosts,
   GetPostsVariables
+>;
+export const GetPostByIdDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetPostById" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "PostIdRequest" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "post" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "title" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                { kind: "Field", name: { kind: "Name", value: "mediaUrl" } },
+                { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+                { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+                { kind: "Field", name: { kind: "Name", value: "authorId" } },
+                { kind: "Field", name: { kind: "Name", value: "isLiked" } },
+                { kind: "Field", name: { kind: "Name", value: "likesCount" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "author" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "firstName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "lastName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "avatarUrl" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "createdAt" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "updatedAt" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "email" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+
+/**
+ * __useGetPostById__
+ *
+ * To run a query within a React component, call `useGetPostById` and pass it any options that fit your needs.
+ * When your component renders, `useGetPostById` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPostById({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetPostById(
+  baseOptions: Apollo.QueryHookOptions<GetPostById, GetPostByIdVariables> &
+    ({ variables: GetPostByIdVariables; skip?: boolean } | { skip: boolean }),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetPostById, GetPostByIdVariables>(
+    GetPostByIdDocument,
+    options,
+  );
+}
+export function useGetPostByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetPostById, GetPostByIdVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetPostById, GetPostByIdVariables>(
+    GetPostByIdDocument,
+    options,
+  );
+}
+export function useGetPostByIdSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetPostById, GetPostByIdVariables>,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetPostById, GetPostByIdVariables>(
+    GetPostByIdDocument,
+    options,
+  );
+}
+export type GetPostByIdHookResult = ReturnType<typeof useGetPostById>;
+export type GetPostByIdLazyQueryHookResult = ReturnType<
+  typeof useGetPostByIdLazyQuery
+>;
+export type GetPostByIdSuspenseQueryHookResult = ReturnType<
+  typeof useGetPostByIdSuspenseQuery
+>;
+export type GetPostByIdQueryResult = Apollo.QueryResult<
+  GetPostById,
+  GetPostByIdVariables
 >;

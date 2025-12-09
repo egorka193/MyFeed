@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import type * as Types from "../../../shared/types/api-types";
 
 import type { DocumentNode } from "graphql";
@@ -238,6 +239,7 @@ export function useMyPostsLazyQuery(
     options,
   );
 }
+// eslint-disable-next-line react-refresh/only-export-components
 export function useMyPostsSuspenseQuery(
   baseOptions?:
     | Apollo.SkipToken

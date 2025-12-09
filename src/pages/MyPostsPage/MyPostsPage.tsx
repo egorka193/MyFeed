@@ -1,43 +1,54 @@
-import styles from './MyPostsPage.module.css';
-import { PostCard } from '@/shared/ui/PostCard/PostCard';
-import { useState, useRef, useCallback } from 'react';
-import SvgIllustration from '@/shared/ui/icons/Illustration';
-import { Button } from '@/shared/ui/Button/Button';
-import type { PostModel } from '@/shared/types/api-types';
-import { CreatePostForm } from '@/features/createPost/ui/CreatePostForm';
-import { PageContainer } from '@/shared/ui/PageContainer/PageContainer';
-import { Modal } from '@/shared/ui/Modal/Modal';
-import { useAppSelector } from '@/shared/store/store';
-import { Avatar } from '@/shared/ui/Avatar/Avatar';
-import { DeletePostModal } from '@/features/deletePost/DeletePostModal';
-import { MyPostsList } from '@/features/myPosts/ui/MyPostsList';
-import { usePaginationMyPosts } from '@/features/myPosts/hooks/usePaginationMyPosts';
+import { useState, useRef, useCallback, useEffect } from "react";
+import { useAppSelector } from "@/shared/store/store";
+import { usePaginationMyPosts } from "@/features/myPosts/hooks/usePaginationMyPosts";
+import { CreatePostForm } from "@/features/createPost/ui/CreatePostForm";
+import { DeletePostModal } from "@/features/deletePost/DeletePostModal";
+import { PageContainer } from "@/shared/ui/PageContainer/PageContainer";
+import { Avatar } from "@/shared/ui/Avatar/Avatar";
+import { Button } from "@/shared/ui/Button/Button";
+import SvgIllustration from "@/shared/ui/icons/Illustration";
+import { MyPostsList } from "@/features/myPosts/ui/MyPostsList";
+import { PostCard } from "@/shared/ui/PostCard/PostCard";
+import { Modal } from "@/shared/ui/Modal/Modal";
+import type { PostModel } from "@/shared/types/api-types";
+import styles from "./MyPostsPage.module.css";
 
 export const MyPostsPage = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [editingPost, setEditingPost] = useState<PostModel | null>(null);
   const [selectedPost, setSelectedPost] = useState<PostModel | null>(null);
-  const [deleteConfirmPost, setDeleteConfirmPost] = useState<PostModel | null>(null);
+  const [deleteConfirmPost, setDeleteConfirmPost] = useState<PostModel | null>(
+    null,
+  );
 
-  const currentUser = useAppSelector(state => state.auth.user);
+  const currentUser = useAppSelector((state) => state.auth.user);
 
-  const { posts, isLoading, hasMore, getMorePosts } = usePaginationMyPosts();
+  const {
+    posts: serverPosts,
+    isLoading,
+    hasMore,
+    getMorePosts,
+  } = usePaginationMyPosts();
+
+  const [posts, setPosts] = useState<PostModel[]>(serverPosts ?? []);
+
+  useEffect(() => {
+    if (JSON.stringify(serverPosts) !== JSON.stringify(posts)) {
+      setPosts(serverPosts);
+    }
+  }, [serverPosts]);
+
   const observer = useRef<IntersectionObserver | null>(null);
-
   const lastItemRef = useCallback(
     (node: HTMLDivElement | null) => {
       if (isLoading || !hasMore) return;
       if (observer.current) observer.current.disconnect();
-
-      observer.current = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-          getMorePosts();
-        }
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) getMorePosts();
       });
-
       if (node) observer.current.observe(node);
     },
-    [isLoading, hasMore, getMorePosts]
+    [isLoading, hasMore, getMorePosts],
   );
 
   const handleCreatePostClick = () => setIsCreating(true);
@@ -45,45 +56,51 @@ export const MyPostsPage = () => {
   const handleOpenPost = (post: PostModel) => setSelectedPost(post);
   const handleModalClose = () => setSelectedPost(null);
 
-  if (isCreating || editingPost) {
-    return (
-      <PageContainer>
-        <div className={styles.createForm}>
-          <CreatePostForm
-            initialPost={editingPost ?? undefined}
-            onCancel={() => { setIsCreating(false); setEditingPost(null); }}
-            onSuccess={() => {
-              setEditingPost(null);
-              setIsCreating(false);
-            }}
-          />
-        </div>
-      </PageContainer>
-    );
-  }
+  const handlePostDeleted = (postId: string) => {
+    setDeleteConfirmPost(null);
+    setPosts((prev) => prev.filter((p) => p.id !== postId));
+  };
 
   return (
-    <div className={styles.container}>
-      {isLoading && !posts.length && <p>Loading your posts...</p>}
-
-      {!isLoading && !posts.length && (
+    <PageContainer>
+      {isCreating || editingPost ? (
+        <CreatePostForm
+          initialPost={editingPost ?? undefined}
+          onCancel={() => {
+            setIsCreating(false);
+            setEditingPost(null);
+          }}
+          onSuccess={() => {
+            setEditingPost(null);
+            setIsCreating(false);
+          }}
+        />
+      ) : posts.length === 0 && !isLoading ? (
         <div className={styles.emptyState}>
           <SvgIllustration className={styles.illustration} />
           <p className={styles.emptyText}>У вас пока нет постов</p>
-          <Button variant="primary" className={styles.addPostButton} onClick={handleCreatePostClick}>
+          <Button
+            variant="primary"
+            onClick={handleCreatePostClick}
+            className={styles.addPostButton}
+          >
             Создать пост
           </Button>
         </div>
-      )}
-
-      {posts.length > 0 && (
+      ) : (
         <>
           <div className={styles.newPostBox}>
-            <Avatar url={currentUser?.avatarUrl ?? ""} />
-            <span className={styles.newPostText}>
-              Что у вас нового, {currentUser?.firstName}?
-            </span>
-            <Button variant="primary" className={styles.addPostButton} onClick={handleCreatePostClick}>
+            <div className={styles.newPostBoxLeft}>
+              <Avatar url={currentUser?.avatarUrl ?? ""} />
+              <span className={styles.newPostText}>
+                Что у вас нового, {currentUser?.firstName}?
+              </span>
+            </div>
+            <Button
+              variant="primary"
+              onClick={handleCreatePostClick}
+              className={styles.addPostButton}
+            >
               Создать пост
             </Button>
           </div>
@@ -117,9 +134,9 @@ export const MyPostsPage = () => {
           open={!!deleteConfirmPost}
           onClose={() => setDeleteConfirmPost(null)}
           post={deleteConfirmPost}
-          onDeleted={() => {}}
+          onDeleted={handlePostDeleted}
         />
       )}
-    </div>
+    </PageContainer>
   );
 };

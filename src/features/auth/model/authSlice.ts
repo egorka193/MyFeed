@@ -11,7 +11,7 @@ interface User {
   country?: string;
   gender?: GenderType;
   avatarUrl?: string | null;
-  birthDate?: string; // <-- добавляем это поле
+  birthDate?: string;
 }
 export interface AuthState {
   token: string;
@@ -35,7 +35,7 @@ const authSlice = createSlice({
       state.token = action.payload;
       localStorage.setItem("token", action.payload);
     },
-    setUser: (state, action: PayloadAction<AuthState['user']>) => {
+    setUser: (state, action: PayloadAction<AuthState["user"]>) => {
       state.user = action.payload;
     },
     clearCredentials: (state) => {

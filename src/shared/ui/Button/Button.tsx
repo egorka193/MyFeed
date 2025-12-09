@@ -6,7 +6,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary";
 }
 
-export const Button: React.FC<ButtonProps> = ({ loading, children, className, ...props }) => {
+export const Button: React.FC<ButtonProps> = ({
+  loading,
+  children,
+  className,
+  ...props
+}) => {
   return (
     <button
       {...props}
@@ -18,4 +23,3 @@ export const Button: React.FC<ButtonProps> = ({ loading, children, className, ..
     </button>
   );
 };
-

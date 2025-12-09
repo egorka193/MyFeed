@@ -8,6 +8,7 @@ import { toggleFavorite } from "@/features/favorites/model/favoritesSlice";
 import { Avatar } from "../Avatar/Avatar";
 import { PostAuthorActions } from "../PostAuthorActions/PostAuthorActions";
 import { SharePostModal } from "@/features/sharePost/SharePostModal";
+import { useToaster } from "@/features/toaster/useToaster";
 
 type PostCardProps = {
   post: PostModel;
@@ -15,9 +16,9 @@ type PostCardProps = {
   disabled?: boolean;
   onEdit?: (post: PostModel) => void;
   onOpen?: () => void;
-  onDeleteClick?: () => void; 
-  withShare?: boolean;      
-  withFavorites?: boolean; 
+  onDeleteClick?: () => void;
+  withShare?: boolean;
+  withFavorites?: boolean;
 };
 
 export const PostCard: React.FC<PostCardProps> = ({
@@ -38,43 +39,52 @@ export const PostCard: React.FC<PostCardProps> = ({
   const dispatch = useAppDispatch();
   const favorites = useAppSelector((state) => state.favorites.items);
   const isLiked = favorites.some((fav) => fav.id === id);
+  const { toastSuccess, toastError } = useToaster();
+
+  const handleToggleFavorite = () => {
+    dispatch(toggleFavorite(post));
+    if (isLiked) {
+      toastError("Удалено из избранного");
+    } else {
+      toastSuccess("Добавлено в избранное");
+    }
+  };
 
   const isLong = description.length > 150;
   const postUrl = `${window.location.origin}/posts/${id}`;
 
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(postUrl);
-    } catch {
-      console.error("Не удалось скопировать ссылку");
-    }
-    setShareOpen(false);
-  };
-
   return (
     <div className={styles.postCard}>
       <div className={styles.postHeader}>
-        <Avatar url={author.avatarUrl ?? ""} />
-        <div className={styles.postAuthor}>
-          <span className={styles.postName}>
-            {author.firstName} {author.lastName}
-          </span>
-          <span className={styles.postDate}>
-            {new Date(createdAt).toLocaleDateString()}
-          </span>
+        <div className={styles.postHeaderInfo}>
+          <Avatar url={author.avatarUrl ?? ""} />
+          <div className={styles.postAuthor}>
+            <span className={styles.postName}>
+              {author.firstName} {author.lastName}
+            </span>
+            <span className={styles.postDate}>
+              {new Date(createdAt).toLocaleDateString()}
+            </span>
+          </div>
         </div>
-        {actionsType === "author" && (
-          <PostAuthorActions
-            id={id}
-            disabled={disabled}
-            deleteHandler={onDeleteClick} 
-            onShare={() => setShareOpen(true)}
-            onEdit={() => onEdit?.(post)}
-          />
-        )}
+        <div className={styles.postActionsWrapper}>
+          {actionsType === "author" && (
+            <PostAuthorActions
+              id={id}
+              disabled={disabled}
+              deleteHandler={onDeleteClick}
+              onShare={() => setShareOpen(true)}
+              onEdit={() => onEdit?.(post)}
+            />
+          )}
+        </div>
       </div>
 
-      <h2 className={styles.postTitle} onClick={onOpen} style={{ cursor: "pointer" }}>
+      <h2
+        className={styles.postTitle}
+        onClick={onOpen}
+        style={{ cursor: "pointer" }}
+      >
         {title}
       </h2>
 
@@ -92,7 +102,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         {expanded || !isLong ? description : description.slice(0, 150) + "... "}
         {isLong && (
           <button
-            onClick={() => setExpanded(prev => !prev)}
+            onClick={() => setExpanded((prev) => !prev)}
             className={styles.readMoreInlineBtn}
           >
             {expanded ? "Свернуть" : "Читать больше"}
@@ -104,7 +114,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         {withFavorites && (
           <button
             className={`${styles.likeBtn} ${isLiked ? styles.liked : ""}`}
-            onClick={() => dispatch(toggleFavorite(post))}
+            onClick={handleToggleFavorite}
           >
             <SvgHeart />
           </button>
@@ -117,7 +127,13 @@ export const PostCard: React.FC<PostCardProps> = ({
         )}
       </div>
 
-      {withShare && <SharePostModal open={shareOpen} onClose={() => setShareOpen(false)} postUrl={postUrl} />}
+      {withShare && (
+        <SharePostModal
+          open={shareOpen}
+          onClose={() => setShareOpen(false)}
+          postUrl={postUrl}
+        />
+      )}
     </div>
   );
 };

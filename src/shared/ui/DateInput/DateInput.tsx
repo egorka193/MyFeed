@@ -33,5 +33,5 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
         {error && <p className={styles.dateInputErrorText}>{error}</p>}
       </div>
     );
-  }
+  },
 );

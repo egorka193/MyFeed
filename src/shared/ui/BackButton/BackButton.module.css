@@ -18,3 +18,9 @@
 .backButton:hover {
   color: var(--ControlPrimary);
 }
+
+@media (max-width: 600px) {
+  .backWrapper {
+    display: none;
+  }
+}

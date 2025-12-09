@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { clearCredentials, setUser } from "@/features/auth/model/authSlice";
@@ -19,7 +20,7 @@ export const AuthInitializer = ({ children }: Props) => {
   useEffect(() => {
     if (!token) {
       dispatch(clearCredentials());
-      setInitialized(true); 
+      setInitialized(true);
       return;
     }
 
@@ -28,21 +29,24 @@ export const AuthInitializer = ({ children }: Props) => {
         const userResult = await fetchUserMe();
 
         if (userResult.data?.userMe) {
-            const user = userResult.data.userMe;
-            dispatch(setUser({
+          const user = userResult.data.userMe;
+          dispatch(
+            setUser({
               ...user,
               firstName: user.firstName ?? "",
               lastName: user.lastName ?? "",
               middleName: user.middleName ?? "",
               birthDate: user.birthDate ?? "",
-              gender: (user.gender === "MALE" || user.gender === "FEMALE") 
-              ? (user.gender as GenderType) 
-              : undefined,
+              gender:
+                user.gender === "MALE" || user.gender === "FEMALE"
+                  ? (user.gender as GenderType)
+                  : undefined,
               phone: user.phone ?? "",
               country: user.country ?? "",
               avatarUrl: user.avatarUrl ?? null,
-            }));
-          } else {
+            }),
+          );
+        } else {
           dispatch(clearCredentials());
         }
       } catch (err) {

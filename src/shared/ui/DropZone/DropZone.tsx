@@ -8,7 +8,12 @@ type DropzoneProps = {
   progress?: number;
 };
 
-export const Dropzone = ({ onFileSelect, preview, uploading, progress }: DropzoneProps) => {
+export const Dropzone = ({
+  onFileSelect,
+  preview,
+  uploading,
+  progress,
+}: DropzoneProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFiles = (files: FileList | null) => {
@@ -34,12 +39,11 @@ export const Dropzone = ({ onFileSelect, preview, uploading, progress }: Dropzon
           <img src={preview} alt="preview" className={styles.previewImg} />
           {uploading && (
             <div className={styles.progressBarWrapper}>
-            <div
-              className={`${styles.progressBar} ${uploading && progress! < 100 ? styles.animate : ""}`}
-              style={{ width: `${progress ?? 0}%` }}
-            />
-          </div>
-          
+              <div
+                className={`${styles.progressBar} ${uploading && progress! < 100 ? styles.animate : ""}`}
+                style={{ width: `${progress ?? 0}%` }}
+              />
+            </div>
           )}
         </div>
       ) : (

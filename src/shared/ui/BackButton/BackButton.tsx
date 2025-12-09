@@ -3,9 +3,9 @@ import { BackArrow } from "@/shared/ui/icons";
 import styles from "./BackButton.module.css";
 
 interface BackButtonProps {
-  label?: string;               
-  confirm?: boolean;            
-  onConfirmExit?: () => void;   
+  label?: string;
+  confirm?: boolean;
+  onConfirmExit?: () => void;
 }
 
 export const BackButton = ({

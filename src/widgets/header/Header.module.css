@@ -1,4 +1,10 @@
 .header {
+  position: sticky; /* фиксируем шапку при скролле */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
   align-items: center;
   height: 64px;
   background-color: var(--BgPrimary);
@@ -7,6 +13,7 @@
   font-size: 16px;
   font-weight: 500;
 }
+
 .headerInner {
   max-width: 1440px; 
   height: 100%;
@@ -17,6 +24,16 @@
   justify-content: space-between;
 }
 
+/* Мобильная версия — скрываем десктопную навигацию */
+.headerInnerMobile {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 16px;
+}
+
+/* Логотип */
 .logo {
   font-size: 20px;
   font-weight: 700;
@@ -84,9 +101,120 @@
   align-items: center;
   gap: 4px;
 }
+
 .rightBlock {
   display: flex;
   gap: 40px;
 }
+.mobileToggle {
+  display: none;
+  border: none;
+  background: var(--BgPrimary);
+}
+.mobilePageTitle {
+  display: none;
+}
 
+@media (max-width: 1024px) {
+  .headerInner {
+    padding: 0 24px;
+  }
+
+  .nav {
+    gap: 32px;
+  }
+
+  .rightBlock {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo{
+    display: none;
+  }
+
+  .headerInner {
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .headerInnerMobile {
+    display: flex;
+  }
+
+  .mobileNav {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 64px; 
+    left: 0;
+    width: 100%;
+    background: var(--BgPrimary);
+    padding: 16px;
+    gap: 16px;
+    border-bottom: 1px solid var(--Border);
+    z-index: 1000;
+  }
+
+  .mobileNav a, .mobileNav button {
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--TextPrimary);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .mobilePageTitle {
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .mobileToggle {
+    display: block;
+    z-index: 1001;
+  }
+
+  .nav,
+  .rightBlock,
+  .logo {
+    display: none;
+  }
+
+  .mobileNav {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    background: var(--BgPrimary);
+    padding: 16px;
+    gap: 16px;
+    border-bottom: 1px solid var(--Border);
+    z-index: 1000;
+  }
+
+  .mobileNav a,
+  .mobileNav button {
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--TextPrimary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+  }
+}
 

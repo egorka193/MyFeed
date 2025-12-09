@@ -9,7 +9,7 @@ interface ProfileAvatarProps {
 }
 
 export const ProfileAvatar = ({ onAvatarChange }: ProfileAvatarProps) => {
-  const user = useAppSelector(state => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const [editProfile] = useEditProfile();
 
@@ -37,7 +37,9 @@ export const ProfileAvatar = ({ onAvatarChange }: ProfileAvatarProps) => {
 
   const handleDeleteAvatar = async () => {
     try {
-      await editProfile({ variables: { input: { email: user?.email ?? "", avatarUrl: null } } });
+      await editProfile({
+        variables: { input: { email: user?.email ?? "", avatarUrl: null } },
+      });
       updateUserState({ avatarUrl: null });
       onAvatarChange?.();
     } catch (err) {
@@ -45,5 +47,11 @@ export const ProfileAvatar = ({ onAvatarChange }: ProfileAvatarProps) => {
     }
   };
 
-  return <AvatarDropdown avatarSrc={user?.avatarUrl ?? null} onUpload={handleUploadAvatar} onDelete={handleDeleteAvatar} />;
+  return (
+    <AvatarDropdown
+      avatarSrc={user?.avatarUrl ?? null}
+      onUpload={handleUploadAvatar}
+      onDelete={handleDeleteAvatar}
+    />
+  );
 };

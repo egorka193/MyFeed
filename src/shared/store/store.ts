@@ -1,5 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { useDispatch, useSelector, type TypedUseSelectorHook } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+  type TypedUseSelectorHook,
+} from "react-redux";
 import authReducer from "../../features/auth/model/authSlice";
 import favoritesReducer from "../../features/favorites/model/favoritesSlice";
 

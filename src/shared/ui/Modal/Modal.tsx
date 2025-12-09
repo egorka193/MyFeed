@@ -19,10 +19,9 @@ export const Modal = ({ children, onClose }: ModalProps) => {
   return ReactDOM.createPortal(
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.content} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.close} onClick={onClose}>×</button>
         {children}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };

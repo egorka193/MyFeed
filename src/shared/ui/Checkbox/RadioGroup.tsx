@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Controller, type Control } from "react-hook-form";
 import styles from "./RadioGroup.module.css";
 
@@ -13,7 +14,12 @@ interface RadioGroupProps {
   control: Control<any>;
 }
 
-export const RadioGroup = ({ name, label, options, control }: RadioGroupProps) => {
+export const RadioGroup = ({
+  name,
+  label,
+  options,
+  control,
+}: RadioGroupProps) => {
   return (
     <div className={styles.group}>
       {label && <span className={styles.label}>{label}</span>}

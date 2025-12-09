@@ -9,29 +9,31 @@ interface EntityRef {
 
 type KeyArgs = FieldPolicy<EntityRef>["keyArgs"];
 
-export const cursorPagination =
-  (keyArgs: KeyArgs = false): FieldPolicy => ({
-    keyArgs,
-    merge(existing, incoming, { args }) {
-      const incomingData = incoming?.data ?? [];
-      const existingData = existing?.data ?? [];
+export const cursorPagination = (keyArgs: KeyArgs = false): FieldPolicy => ({
+  keyArgs,
+  merge(existing, incoming, { args }) {
+    const incomingData = incoming?.data ?? [];
+    const existingData = existing?.data ?? [];
 
-      const hasAfterCursor = Boolean(args?.input?.afterCursor);
+    const hasAfterCursor = Boolean(args?.input?.afterCursor);
 
-      if (!hasAfterCursor) {
-        return incoming;
-      }
+    if (!hasAfterCursor) {
+      return incoming;
+    }
 
-      if (incomingData.length === 0) {
-        return {
-          ...existing,
-          pageInfo: incoming.pageInfo,
-        };
-      }
-
+    if (incomingData.length === 0) {
       return {
-        ...incoming,
-        data: unionBy([...existingData, ...incomingData], (item) => item.__ref || item.id),
+        ...existing,
+        pageInfo: incoming.pageInfo,
       };
-    },
-  });
+    }
+
+    return {
+      ...incoming,
+      data: unionBy(
+        [...existingData, ...incomingData],
+        (item) => item.__ref || item.id,
+      ),
+    };
+  },
+});

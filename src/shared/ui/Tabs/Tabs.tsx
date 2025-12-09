@@ -1,7 +1,7 @@
 import styles from "./tabs.module.css";
 
 interface Tab<T extends string> {
-  id: T; 
+  id: T;
   label: string;
 }
 
@@ -11,7 +11,11 @@ interface TabsProps<T extends string> {
   onChange: (id: T) => void;
 }
 
-export const Tabs = <T extends string>({ tabs, activeId, onChange }: TabsProps<T>) => {
+export const Tabs = <T extends string>({
+  tabs,
+  activeId,
+  onChange,
+}: TabsProps<T>) => {
   return (
     <div className={styles.uiTabs}>
       <div className={styles.uiTabs__list}>

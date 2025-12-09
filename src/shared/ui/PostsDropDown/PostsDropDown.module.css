@@ -52,3 +52,28 @@
 .dropdownItem:hover {
   background: var(--BgSecondary);
 }
+
+@media (max-width: 600px) {
+  .dropdownWrapper {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .dropdownTrigger {
+    width: 100%;
+    justify-content: center; 
+  }
+
+  .dropdownMenu {
+    width: 100%;
+    left: 0; 
+    border-radius: 0; 
+  }
+
+  .dropdownItem {
+    text-align: center; 
+  }
+  .dropdownItem:hover {
+    background: var(--BgContrast);
+  }
+}

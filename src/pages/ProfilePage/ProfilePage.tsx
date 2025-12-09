@@ -11,9 +11,9 @@ import { ProfileAvatar } from "@/features/profile/ProfileAvatar";
 import { GenderType } from "@/shared/types/api-types";
 
 export const ProfilePage = () => {
-  const { data, loading } = useUserMe(); 
+  const { data, loading } = useUserMe();
   const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
   const [exitModalOpen, setExitModalOpen] = useState(false);
   const [avatarChanged, setAvatarChanged] = useState(false);
   const [formDirty, setFormDirty] = useState(false);
@@ -25,18 +25,20 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     if (!loading && data?.userMe) {
-      dispatch(setUser({
-        id: data.userMe.id,
-        email: data.userMe.email ?? "",
-        firstName: data.userMe.firstName ?? "",
-        lastName: data.userMe.lastName ?? "",
-        middleName: data.userMe.middleName ?? "",
-        avatarUrl: data.userMe.avatarUrl ?? null,
-        birthDate: data.userMe.birthDate ?? "",
-       gender: parseGender(data.userMe.gender ?? undefined),
-        phone: data.userMe.phone ?? "",
-        country: data.userMe.country ?? "",
-      }));
+      dispatch(
+        setUser({
+          id: data.userMe.id,
+          email: data.userMe.email ?? "",
+          firstName: data.userMe.firstName ?? "",
+          lastName: data.userMe.lastName ?? "",
+          middleName: data.userMe.middleName ?? "",
+          avatarUrl: data.userMe.avatarUrl ?? null,
+          birthDate: data.userMe.birthDate ?? "",
+          gender: parseGender(data.userMe.gender ?? undefined),
+          phone: data.userMe.phone ?? "",
+          country: data.userMe.country ?? "",
+        }),
+      );
     }
   }, [data, loading, dispatch]);
 
@@ -56,9 +58,12 @@ export const ProfilePage = () => {
 
           <ProfileAvatar onAvatarChange={() => setAvatarChanged(true)} />
 
-          <ProfileForm 
-            onSaved={() => { setFormDirty(false); setAvatarChanged(false); }}
-            onDirtyChange={setFormDirty} 
+          <ProfileForm
+            onSaved={() => {
+              setFormDirty(false);
+              setAvatarChanged(false);
+            }}
+            onDirtyChange={setFormDirty}
           />
 
           <ConfirmModal
@@ -83,4 +88,3 @@ export const ProfilePage = () => {
     </>
   );
 };
-

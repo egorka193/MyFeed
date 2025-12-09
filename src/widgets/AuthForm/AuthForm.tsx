@@ -13,7 +13,7 @@ export const AuthForm = () => {
       { id: "login", label: "Авторизация" },
       { id: "register", label: "Регистрация" },
     ],
-    []
+    [],
   );
 
   return (
@@ -30,7 +30,11 @@ export const AuthForm = () => {
       />
 
       <div className={styles.authForm__content}>
-        {activeTab === "login" ? <LoginFormContent /> : <RegistrationFormContent />}
+        {activeTab === "login" ? (
+          <LoginFormContent />
+        ) : (
+          <RegistrationFormContent />
+        )}
       </div>
     </div>
   );

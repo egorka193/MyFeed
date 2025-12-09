@@ -6,8 +6,8 @@ import { ProfilePage } from "@/pages/ProfilePage/ProfilePage";
 import { MyPostsPage } from "@/pages/MyPostsPage/MyPostsPage";
 import { ProtectedRoute } from "@/features/authRoutes/ui/ProtectedRoute";
 import { PublicOnlyRoute } from "@/features/authRoutes/ui/PublicOnlyRoute";
-import { Layout } from "@/shared/ui/Layout/Layout"; 
-import "../shared/styles/variables.css"; 
+import { Layout } from "@/shared/ui/Layout/Layout";
+import "../shared/styles/variables.css";
 import "../shared/styles/index.css";
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
         <Route
           element={
             <ProtectedRoute>
-              <Layout /> 
+              <Layout />
             </ProtectedRoute>
           }
         >

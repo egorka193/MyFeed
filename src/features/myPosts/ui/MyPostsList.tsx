@@ -1,5 +1,5 @@
-import { PostCard } from '@/shared/ui/PostCard/PostCard';
-import type { PostModel } from '@/shared/types/api-types';
+import { PostCard } from "@/shared/ui/PostCard/PostCard";
+import type { PostModel } from "@/shared/types/api-types";
 
 type MyPostsListProps = {
   posts: PostModel[];
@@ -10,10 +10,20 @@ type MyPostsListProps = {
   lastItemRef?: (node: HTMLDivElement | null) => void;
 };
 
-export const MyPostsList = ({ posts, disabled, onEdit, onDelete, onOpen, lastItemRef }: MyPostsListProps) => (
+export const MyPostsList = ({
+  posts,
+  disabled,
+  onEdit,
+  onDelete,
+  onOpen,
+  lastItemRef,
+}: MyPostsListProps) => (
   <>
     {posts.map((post, index) => (
-      <div key={post.id} ref={index === posts.length - 1 ? lastItemRef : undefined}>
+      <div
+        key={post.id}
+        ref={index === posts.length - 1 ? lastItemRef : undefined}
+      >
         <PostCard
           post={post}
           actionsType="author"

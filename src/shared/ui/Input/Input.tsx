@@ -15,8 +15,18 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { label, error, id, status, showPasswordToggle, isPasswordVisible, onTogglePassword, suffix, ...props },
-    ref
+    {
+      label,
+      error,
+      id,
+      status,
+      showPasswordToggle,
+      isPasswordVisible,
+      onTogglePassword,
+      suffix,
+      ...props
+    },
+    ref,
   ) => {
     const generatedId = useId();
     const inputId = id ?? generatedId;
@@ -45,12 +55,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
 
-        <div className={`${styles.uiInput__field} ${error ? styles["uiInput-error"] : ""}`}>
+        <div
+          className={`${styles.uiInput__field} ${error ? styles["uiInput-error"] : ""}`}
+        >
           <input
             ref={ref}
             id={inputId}
             className={styles.uiInput}
-            type={showPasswordToggle ? (isPasswordVisible ? "text" : "password") : props.type}
+            type={
+              showPasswordToggle
+                ? isPasswordVisible
+                  ? "text"
+                  : "password"
+                : props.type
+            }
             {...props}
           />
 
@@ -66,7 +84,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ) : (
             <>
               {suffix && <span className={styles.uiInput__icon}>{suffix}</span>}
-              {statusIcon && <span className={styles.uiInput__icon}>{statusIcon}</span>}
+              {statusIcon && (
+                <span className={styles.uiInput__icon}>{statusIcon}</span>
+              )}
             </>
           )}
         </div>
@@ -74,6 +94,5 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {error && <p className={styles.uiInput__error__text}>{error}</p>}
       </div>
     );
-  }
+  },
 );
-
