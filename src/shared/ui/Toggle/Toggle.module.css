@@ -1,0 +1,27 @@
+.toggle {
+  width: 31px;
+  height: 19px;
+  background-color: var(--ControlSwitch);
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggle.active {
+  background-color: var(--ControlPrimary); 
+}
+
+.circle {
+  width: 17px;
+  height: 17px;
+  background: var(--ControlSecondary); 
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.toggle.active .circle {
+  transform: translateX(10px); 
+}

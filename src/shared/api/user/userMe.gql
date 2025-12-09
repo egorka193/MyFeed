@@ -1,0 +1,14 @@
+query UserMe {
+  userMe {
+    id
+    email
+    firstName
+    lastName
+    middleName
+    birthDate
+    gender
+    phone
+    country
+    avatarUrl
+  }
+}

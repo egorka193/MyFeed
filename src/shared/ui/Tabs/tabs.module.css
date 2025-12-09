@@ -1,0 +1,35 @@
+.uiTabs__list {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.uiTabs__button {
+  padding: 5px 37px;
+  border: 1px solid var(--BorderAccent);
+  background: var(--BgPrimary);
+  color: var(--TextContrast2);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.uiTabs__button.active {
+  background: var(--ControlPrimary);
+  color: var(--TextContrast);
+}
+
+.uiTabs__button.left {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.uiTabs__button.right {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+@media (max-width: 480px) {
+  .uiTabs__list {
+    height: 44px;
+  }
+}

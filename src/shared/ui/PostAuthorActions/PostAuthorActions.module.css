@@ -1,0 +1,23 @@
+.authorActions {
+  display: flex;
+  gap: 24px;
+}
+.authorActionsItem {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.authorActionsItem svg {
+  width: 100%;
+  height: 100%;
+}
+.authorActionsItem:hover svg,
+.authorActionsItem:hover svg path {
+  stroke: var(--TextSecondary);
+}
+.authorActionsItem:hover svg,
+.authorActionsItem:hover svg path {
+  stroke: var(--TextAccent);
+}

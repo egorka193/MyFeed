@@ -1,0 +1,85 @@
+/* ConfirmModal.module.css */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal {
+  background: var(--BgPrimary);
+  padding: 32px 24px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  height: auto;
+  position: relative;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+  color: var(--TextAccent);
+}
+
+.text {
+  font-size: 14px;
+  margin-bottom: 24px;
+  color: var(--TextSecondary);
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.actionBtn {
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.actionBtn.primary {
+  background: var(--ControlPrimary);
+  color: var(--TextContrast);
+  border: none;
+}
+
+.actionBtn.primary:hover {
+  background: var(--ControlPrimaryHover);
+}
+
+.actionBtn.secondary {
+  background: transparent;
+  border: 1px solid var(--BorderAccent);
+  color: var(--BorderAccent);
+}
+
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--IconSecondary);
+}

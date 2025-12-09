@@ -1,0 +1,8 @@
+mutation SignIn($input: SignInRequest!) {
+  userSignIn(input: $input) {
+    token
+    problem {
+      message
+    }
+  }
+}
